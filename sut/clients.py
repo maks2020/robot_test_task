@@ -40,6 +40,7 @@ class Client:
         self.db = None
         self.cur = None
         self.id_client_positive = None
+        self.balance_client_positive = None
         self.client_services = None
         self.services = None
         self.id_service = None
@@ -56,7 +57,7 @@ class Client:
         query_balances = self.cur.execute('SELECT * FROM BALANCES WHERE BALANCE > 0')
         client_tpl = query_balances.fetchone()
         if client_tpl:
-            self.id_client_positive, _ = client_tpl
+            self.id_client_positive, self.balance_client_positive = client_tpl
             return client_tpl
         count_clients_db = self.db.count_db('CLIENTS')
         client_id_new = count_clients_db + 1
@@ -64,7 +65,7 @@ class Client:
         self.db.add_row('CLIENTS', client_tpl)
         balance_tpl = (client_id_new, 10.5)
         self.db.add_row('BALANCES', balance_tpl)
-        self.id_client_positive, _ = client_tpl
+        self.id_client_positive, self.balance_client_positive = client_tpl
         return client_tpl
 
     def get_client_services(self, port):
@@ -98,13 +99,15 @@ class Client:
             response = requests.post(url, headers=self.headers, json=data)
             return response.status_code
 
-    def wait_new_service(self):
+    def wait_new_service(self, port):
         time_wait = 0
         while True:
-            client_services_ = self.get_client_services(5000)
+            client_services_ = self.get_client_services(port)
             id_services_lst = [item['id'] for item in client_services_['items']]
+            print(id_services_lst)
             if self.id_service in id_services_lst:
                 print('Service id = {} added'.format(self.id_service))
+                print(client_services_)
                 return client_services_
             if time_wait >= 60:
                 raise UnboundLocalError('Exceeded waiting time request...')
@@ -112,6 +115,7 @@ class Client:
             print('Timeout 5')
             time.sleep(5)
 
+    # No valid
     def get_end_balance(self):
         query_end_balance = self.cur.execute('SELECT BALANCE FROM BALANCES '
                                              'WHERE CLIENTS_CLIENT_ID=?',
@@ -119,6 +123,12 @@ class Client:
         end_balance, = query_end_balance.fetchone()
         self.end_balance = end_balance
         return end_balance
+
+    # No valid
+    def compare_start_end_balance(self):
+        print(self.balance_client_positive)
+        print(self.cost_service)
+        return self.end_balance == (self.balance_client_positive - self.cost_service)
 
 
 if __name__ == '__main__':
@@ -131,7 +141,8 @@ if __name__ == '__main__':
     client.get_ex_services()
     print(client.id_service)
     client.set_client_service(5000)
-    client.wait_new_service()
+    client.wait_new_service(5000)
     client.get_end_balance()
     print(client.end_balance)
+    print(client.compare_start_end_balance())
 
