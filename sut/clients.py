@@ -1,6 +1,8 @@
 import os
-import sqlite3 as lite
+import json
 
+import sqlite3 as lite
+import requests
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATABASE_PATH = os.path.join(BASE_DIR, 'web', 'clients.db')
@@ -35,14 +37,15 @@ class DataBase:
 
 class Client:
     def __init__(self):
-        self._id_client_positive = ''
+        self.client_data_positive = ''
+        self.client_services = ''
 
     def get_balance_positive(self):
         db = DataBase()
         query_balances = db.cur.execute('SELECT * FROM BALANCES WHERE BALANCE > 0')
         client_tpl = query_balances.fetchone()
         if client_tpl:
-            self._id_client_positive = client_tpl[0]
+            self.client_data_positive = client_tpl
             return client_tpl
         count_cliens_db = db.count_db('CLIENTS')
         client_id_new = count_cliens_db + 1
@@ -50,7 +53,22 @@ class Client:
         db.add_row('CLIENTS', client_tpl)
         balance_tpl = (client_id_new, 10.5)
         db.add_row('BALANCES', balance_tpl)
-        self._id_client_positive = client_id_new
+        self.client_data_positive = client_tpl
         return client_tpl
 
+    def get_client_services(self, port):
+        data = {}
+        data['client_id'], _ = self.client_data_positive
+        headers = {'Content-Type': 'application/json'}
+        url = 'http://localhost:{port}/client/services'.format(port=port)
+        response = requests.post(url, headers=headers, data=json.dumps(data))
+        client_services = response.json()
+        self.client_services = client_services
+        return client_services
 
+
+if __name__ == '__main__':
+    client = Client()
+    balance_positive = client.get_balance_positive()
+    print(balance_positive)
+    print(client.get_client_services(5000))
