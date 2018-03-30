@@ -97,16 +97,31 @@ class Client:
             response = requests.post(url, headers=self.headers, json=data)
             return response.status_code
 
+    def wait_new_service(self):
+        time_wait = 0
+        while True:
+            client_services_ = self.get_client_services(5000)
+            id_services_lst = [item['id'] for item in client_services_['items']]
+            print(self.id_service, id_services_lst)
+            if self.id_service in id_services_lst:
+                print('Service id{} added'.format(self.id_service))
+                return client_services_
+            if time_wait >= 60:
+                raise UnboundLocalError('Exceeded waiting time request...')
+            time_wait += 5
+            print('Timeout 5')
+            time.sleep(5)
+
 
 if __name__ == '__main__':
     client = Client()
     client.get_connect_to_db()
     balance_positive = client.get_balance_positive()
     print(balance_positive)
-    client_services = client.get_client_services(5000)
+    client_services_ = client.get_client_services(5000)
     services = client.get_services(5000)
     client.get_ex_services()
     print(client.id_service)
     client.set_client_service(5000)
-    client_services = client.get_client_services(5000)
-    print(client_services)
+    client.wait_new_service()
+
