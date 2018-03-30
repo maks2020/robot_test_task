@@ -128,6 +128,13 @@ class Client:
             raise ValueError('Is not valid end balance')
 
 
+client = Client()
+
+
+def connect_to_db():
+    return client.get_connect_to_db()
+
+
 if __name__ == '__main__':
     client = Client()
     client.get_connect_to_db()
@@ -142,4 +149,3 @@ if __name__ == '__main__':
     client.get_end_balance()
     print(client.end_balance)
     print(client.compare_start_end_balance())
-
