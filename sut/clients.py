@@ -39,6 +39,8 @@ class Client:
     def __init__(self):
         self.client_data_positive = ''
         self.client_services = ''
+        self.services = ''
+        self.diff_services = ''
 
     def get_balance_positive(self):
         db = DataBase()
@@ -61,14 +63,35 @@ class Client:
         data['client_id'], _ = self.client_data_positive
         headers = {'Content-Type': 'application/json'}
         url = 'http://localhost:{port}/client/services'.format(port=port)
-        response = requests.post(url, headers=headers, data=json.dumps(data))
+        response = requests.post(url, headers=headers, json=data)
         client_services = response.json()
         self.client_services = client_services
         return client_services
+
+    def get_services(self, port):
+        url = 'http://localhost:{port}/services'.format(port=port)
+        headers = {'Content-Type': 'application/json'}
+        response = requests.get(url, headers=headers)
+        services = response.json()
+        self.services = services
+        return services
+
+    def get_ex_services(self):
+        if self.client_services['count'] != self.services['count']:
+            diff_services = [item for item in self.services['items'] if
+                             item not in self.client_services['items']]
+            self.diff_services = diff_services
+            return diff_services
 
 
 if __name__ == '__main__':
     client = Client()
     balance_positive = client.get_balance_positive()
     print(balance_positive)
-    print(client.get_client_services(5000))
+    client_services = client.get_client_services(5000)
+    services = client.get_services(5000)
+    client.get_ex_services()
+    if client.diff_services:
+        client_services['count'] += len(client.diff_services)
+        client_services['items'] += client.diff_services
+        print(client_services)
