@@ -44,6 +44,7 @@ class Client:
         self.services = None
         self.id_service = None
         self.cost_service = None
+        self.end_balance = None
         self.headers = {'Content-Type': 'application/json'}
 
     def get_connect_to_db(self):
@@ -102,15 +103,22 @@ class Client:
         while True:
             client_services_ = self.get_client_services(5000)
             id_services_lst = [item['id'] for item in client_services_['items']]
-            print(self.id_service, id_services_lst)
             if self.id_service in id_services_lst:
-                print('Service id{} added'.format(self.id_service))
+                print('Service id = {} added'.format(self.id_service))
                 return client_services_
             if time_wait >= 60:
                 raise UnboundLocalError('Exceeded waiting time request...')
             time_wait += 5
             print('Timeout 5')
             time.sleep(5)
+
+    def get_end_balance(self):
+        query_end_balance = self.cur.execute('SELECT BALANCE FROM BALANCES '
+                                             'WHERE CLIENTS_CLIENT_ID=?',
+                                             (self.id_client_positive,))
+        end_balance, = query_end_balance.fetchone()
+        self.end_balance = end_balance
+        return end_balance
 
 
 if __name__ == '__main__':
@@ -124,4 +132,6 @@ if __name__ == '__main__':
     print(client.id_service)
     client.set_client_service(5000)
     client.wait_new_service()
+    client.get_end_balance()
+    print(client.end_balance)
 
