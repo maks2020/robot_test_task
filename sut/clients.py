@@ -85,8 +85,8 @@ class Client:
 
     def get_ex_services(self):
         if self.client_services['count'] != self.services['count']:
-            diff_services = [item for item in self.services['items'] if
-                             item not in self.client_services['items']]
+            diff_services = [item for item in self.services['items']
+                             if item not in self.client_services['items']]
             ex_service = random.choice(diff_services)
             self.id_service = ex_service['id']
             self.cost_service = ex_service['cost']
@@ -107,15 +107,12 @@ class Client:
             print(id_services_lst)
             if self.id_service in id_services_lst:
                 print('Service id = {} added'.format(self.id_service))
-                print(client_services_)
                 return client_services_
             if time_wait >= 60:
-                raise UnboundLocalError('Exceeded waiting time request...')
+                raise TimeoutError('Exceeded waiting time request...')
             time_wait += 5
-            print('Timeout 5')
             time.sleep(5)
 
-    # No valid
     def get_end_balance(self):
         query_end_balance = self.cur.execute('SELECT BALANCE FROM BALANCES '
                                              'WHERE CLIENTS_CLIENT_ID=?',
@@ -124,11 +121,11 @@ class Client:
         self.end_balance = end_balance
         return end_balance
 
-    # No valid
     def compare_start_end_balance(self):
-        print(self.balance_client_positive)
-        print(self.cost_service)
-        return self.end_balance == (self.balance_client_positive - self.cost_service)
+        if self.end_balance == (self.balance_client_positive - self.cost_service):
+            return True
+        else:
+            raise ValueError('Is not valid end balance')
 
 
 if __name__ == '__main__':
