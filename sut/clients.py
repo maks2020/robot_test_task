@@ -52,6 +52,7 @@ class Client:
         self.db = DataBase()
         self.db.connect()
         self.cur = self.db.cur
+        return True
 
     def get_balance_positive(self):
         query_balances = self.cur.execute('SELECT * FROM BALANCES WHERE BALANCE > 0')
@@ -131,21 +132,37 @@ class Client:
 client = Client()
 
 
-def connect_to_db():
+def get_connect_step():
     return client.get_connect_to_db()
 
 
-if __name__ == '__main__':
-    client = Client()
-    client.get_connect_to_db()
-    balance_positive = client.get_balance_positive()
-    print(balance_positive)
-    client_services_ = client.get_client_services(5000)
-    services = client.get_services(5000)
-    client.get_ex_services()
-    print(client.id_service)
-    client.set_client_service(5000)
-    client.wait_new_service(5000)
-    client.get_end_balance()
-    print(client.end_balance)
-    print(client.compare_start_end_balance())
+def get_balance_positive():
+    return client.get_balance_positive()
+
+
+def get_client_services(port):
+    return client.get_client_services(port)
+
+
+def get_services(port):
+    return client.get_services(port)
+
+
+def get_external_service():
+    return client.get_ex_services()
+
+
+def set_client_service(port):
+    return client.set_client_service(port)
+
+
+def wait_new_service(port):
+    return client.wait_new_service(port)
+
+
+def get_end_balance():
+    return client.get_end_balance()
+
+
+def compare_start_end_balance():
+    return client.compare_start_end_balance()
