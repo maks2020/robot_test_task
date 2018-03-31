@@ -47,27 +47,35 @@ class Client:
         self.cost_service = None
         self.end_balance = None
         self.headers = {'Content-Type': 'application/json'}
+        self._status = None
 
     def get_connect_to_db(self):
         self.db = DataBase()
         self.db.connect()
         self.cur = self.db.cur
-        return True
+        self._status = 'SUCCESS'
 
     def get_balance_positive(self):
         query_balances = self.cur.execute('SELECT * FROM BALANCES WHERE BALANCE > 0')
         client_tpl = query_balances.fetchone()
         if client_tpl:
             self.id_client_positive, self.balance_client_positive = client_tpl
+            self._status = 'SUCCESS'
             return client_tpl
         count_clients_db = self.db.count_db('CLIENTS')
         client_id_new = count_clients_db + 1
         client_tpl = (client_id_new, 'Client_{}'.format(client_id_new))
         self.db.add_row('CLIENTS', client_tpl)
-        balance_tpl = (client_id_new, 10.5)
+        balance_tpl = (client_id_new, 3.5)
         self.db.add_row('BALANCES', balance_tpl)
         self.id_client_positive, self.balance_client_positive = client_tpl
-        return client_tpl
+        client_tpl = query_balances.fetchone()
+        query_check_row = self.cur.execute('SELECT BALANCE FROM BALANCES '
+                                           'WHERE CLIENTS_CLIENT_ID=?', (client_id_new,))
+        check_row, = query_check_row.fetchone()
+        if check_row:
+            self._status = 'SUCCESS'
+            return client_tpl
 
     def get_client_services(self, port):
         data = {'client_id': self.id_client_positive}
@@ -75,6 +83,7 @@ class Client:
         response = requests.post(url, headers=self.headers, json=data)
         client_services_ = response.json()
         self.client_services = client_services_
+        self._status = str(response.status_code)
         return client_services_
 
     def get_services(self, port):
@@ -82,6 +91,7 @@ class Client:
         response = requests.get(url, headers=self.headers)
         services_ = response.json()
         self.services = services_
+        self._status = str(response.status_code)
         return services_
 
     def get_ex_services(self):
@@ -89,15 +99,18 @@ class Client:
             diff_services = [item for item in self.services['items']
                              if item not in self.client_services['items']]
             ex_service = random.choice(diff_services)
-            self.id_service = ex_service['id']
-            self.cost_service = ex_service['cost']
-            return ex_service
+            if ex_service:
+                self.id_service = ex_service['id']
+                self.cost_service = ex_service['cost']
+                self._status = 'SUCCESS'
+                return ex_service
 
     def set_client_service(self, port):
         if self.id_service is not None:
             url = 'http://localhost:{port}/client/add_service'.format(port=port)
             data = {'client_id': self.id_client_positive, 'service_id': self.id_service}
             response = requests.post(url, headers=self.headers, json=data)
+            self._status = str(response.status_code)
             return response.status_code
 
     def wait_new_service(self, port):
@@ -108,6 +121,7 @@ class Client:
             print(id_services_lst)
             if self.id_service in id_services_lst:
                 print('Service id = {} added'.format(self.id_service))
+                self._status = 'SUCCESS'
                 return client_services_
             if time_wait >= 60:
                 raise TimeoutError('Exceeded waiting time request...')
@@ -119,14 +133,21 @@ class Client:
                                              'WHERE CLIENTS_CLIENT_ID=?',
                                              (self.id_client_positive,))
         end_balance, = query_end_balance.fetchone()
-        self.end_balance = end_balance
-        return end_balance
+        if end_balance:
+            self.end_balance = end_balance
+            self._status = 'SUCCESS'
+            return end_balance
 
     def compare_start_end_balance(self):
         if self.end_balance == (self.balance_client_positive - self.cost_service):
-            return True
+            self._status = 'SUCCESS'
         else:
-            raise ValueError('Is not valid end balance')
+            self._status = 'UNSUCCESS'
+
+    def status_should_be(self, expected_status):
+        if expected_status != self._status:
+            raise AssertionError("Expected status to be '%s' but was '%s'."
+                                 % (expected_status, self._status))
 
 
 client = Client()
@@ -166,3 +187,7 @@ def get_end_balance():
 
 def compare_start_end_balance():
     return client.compare_start_end_balance()
+
+
+def status_should_be(expected_status):
+    client.status_should_be(expected_status)
