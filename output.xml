@@ -1,37 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generated="20180401 16:13:07.132" generator="Robot 3.0.2 (Python 3.5.3 on linux)">
-<suite id="s1" source="/home/mark/PycharmProjects/ps_test_task/tests/test_client.robot" name="Test Client">
-<test id="s1-t1" name="Test 1 Connect to db">
+<robot generated="20180401 22:48:23.194" generator="Robot 3.0.2 (Python 3.5.3 on linux)">
+<suite source="/home/mark/PycharmProjects/ps_test_task/tests/test_client.robot" name="Test Client" id="s1">
+<test name="Test 1 Connect to db" id="s1-t1">
 <kw name="Step 1 Connect to db">
 <kw library="ClientLibrary" name="Get Connect To Db">
-<status status="PASS" endtime="20180401 16:13:07.305" starttime="20180401 16:13:07.305"></status>
+<status endtime="20180401 22:48:23.317" status="PASS" starttime="20180401 22:48:23.316"></status>
 </kw>
-<status status="PASS" endtime="20180401 16:13:07.306" starttime="20180401 16:13:07.304"></status>
+<status endtime="20180401 22:48:23.318" status="PASS" starttime="20180401 22:48:23.315"></status>
 </kw>
 <kw library="ClientLibrary" name="Status Should Be">
 <arguments>
 <arg>SUCCESS</arg>
 </arguments>
-<status status="PASS" endtime="20180401 16:13:07.308" starttime="20180401 16:13:07.306"></status>
+<kw library="BuiltIn" name="Should Be Equal">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>SUCCESS</arg>
+<arg>SUCCESS</arg>
+<arg>Expected status to be 'SUCCESS' but was 'SUCCESS'.</arg>
+</arguments>
+<status endtime="20180401 22:48:23.321" status="PASS" starttime="20180401 22:48:23.321"></status>
 </kw>
-<status status="PASS" critical="yes" endtime="20180401 16:13:07.308" starttime="20180401 16:13:07.303"></status>
+<status endtime="20180401 22:48:23.322" status="PASS" starttime="20180401 22:48:23.318"></status>
+</kw>
+<status endtime="20180401 22:48:23.322" status="PASS" starttime="20180401 22:48:23.314" critical="yes"></status>
 </test>
-<test id="s1-t2" name="Test 2 Get balance">
+<test name="Test 2 Get balance" id="s1-t2">
 <kw name="Step 2 Get balance of client positive">
 <kw library="ClientLibrary" name="Get Balance Positive">
-<status status="PASS" endtime="20180401 16:13:07.310" starttime="20180401 16:13:07.309"></status>
+<status endtime="20180401 22:48:23.325" status="PASS" starttime="20180401 22:48:23.325"></status>
 </kw>
-<status status="PASS" endtime="20180401 16:13:07.310" starttime="20180401 16:13:07.309"></status>
+<status endtime="20180401 22:48:23.328" status="PASS" starttime="20180401 22:48:23.324"></status>
 </kw>
 <kw library="ClientLibrary" name="Status Should Be">
 <arguments>
 <arg>SUCCESS</arg>
 </arguments>
-<status status="PASS" endtime="20180401 16:13:07.310" starttime="20180401 16:13:07.310"></status>
+<kw library="BuiltIn" name="Should Be Equal">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>SUCCESS</arg>
+<arg>SUCCESS</arg>
+<arg>Expected status to be 'SUCCESS' but was 'SUCCESS'.</arg>
+</arguments>
+<status endtime="20180401 22:48:23.330" status="PASS" starttime="20180401 22:48:23.329"></status>
 </kw>
-<status status="PASS" critical="yes" endtime="20180401 16:13:07.310" starttime="20180401 16:13:07.308"></status>
+<status endtime="20180401 22:48:23.330" status="PASS" starttime="20180401 22:48:23.328"></status>
+</kw>
+<status endtime="20180401 22:48:23.330" status="PASS" starttime="20180401 22:48:23.323" critical="yes"></status>
 </test>
-<test id="s1-t3" name="Test 3 Get client services">
+<test name="Test 3 Get client services" id="s1-t3">
 <kw name="Step 3 Get client services">
 <arguments>
 <arg>${PORT}</arg>
@@ -40,19 +58,28 @@
 <arguments>
 <arg>${port}</arg>
 </arguments>
-<status status="PASS" endtime="20180401 16:13:07.353" starttime="20180401 16:13:07.312"></status>
+<status endtime="20180401 22:48:23.370" status="PASS" starttime="20180401 22:48:23.333"></status>
 </kw>
-<status status="PASS" endtime="20180401 16:13:07.354" starttime="20180401 16:13:07.311"></status>
+<status endtime="20180401 22:48:23.371" status="PASS" starttime="20180401 22:48:23.332"></status>
 </kw>
 <kw library="ClientLibrary" name="Status Should Be">
 <arguments>
 <arg>200</arg>
 </arguments>
-<status status="PASS" endtime="20180401 16:13:07.354" starttime="20180401 16:13:07.354"></status>
+<kw library="BuiltIn" name="Should Be Equal">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>200</arg>
+<arg>200</arg>
+<arg>Expected status to be '200' but was '200'.</arg>
+</arguments>
+<status endtime="20180401 22:48:23.373" status="PASS" starttime="20180401 22:48:23.372"></status>
 </kw>
-<status status="PASS" critical="yes" endtime="20180401 16:13:07.355" starttime="20180401 16:13:07.311"></status>
+<status endtime="20180401 22:48:23.373" status="PASS" starttime="20180401 22:48:23.372"></status>
+</kw>
+<status endtime="20180401 22:48:23.373" status="PASS" starttime="20180401 22:48:23.331" critical="yes"></status>
 </test>
-<test id="s1-t4" name="Test 4 Get services">
+<test name="Test 4 Get services" id="s1-t4">
 <kw name="Step 4 Get services">
 <arguments>
 <arg>${PORT}</arg>
@@ -61,34 +88,52 @@
 <arguments>
 <arg>${port}</arg>
 </arguments>
-<status status="PASS" endtime="20180401 16:13:07.367" starttime="20180401 16:13:07.357"></status>
+<status endtime="20180401 22:48:23.381" status="PASS" starttime="20180401 22:48:23.375"></status>
 </kw>
-<status status="PASS" endtime="20180401 16:13:07.367" starttime="20180401 16:13:07.356"></status>
+<status endtime="20180401 22:48:23.381" status="PASS" starttime="20180401 22:48:23.374"></status>
 </kw>
 <kw library="ClientLibrary" name="Status Should Be">
 <arguments>
 <arg>200</arg>
 </arguments>
-<status status="PASS" endtime="20180401 16:13:07.367" starttime="20180401 16:13:07.367"></status>
+<kw library="BuiltIn" name="Should Be Equal">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>200</arg>
+<arg>200</arg>
+<arg>Expected status to be '200' but was '200'.</arg>
+</arguments>
+<status endtime="20180401 22:48:23.383" status="PASS" starttime="20180401 22:48:23.382"></status>
 </kw>
-<status status="PASS" critical="yes" endtime="20180401 16:13:07.368" starttime="20180401 16:13:07.355"></status>
+<status endtime="20180401 22:48:23.383" status="PASS" starttime="20180401 22:48:23.382"></status>
+</kw>
+<status endtime="20180401 22:48:23.383" status="PASS" starttime="20180401 22:48:23.374" critical="yes"></status>
 </test>
-<test id="s1-t5" name="Test 5 Get external service">
+<test name="Test 5 Get external service" id="s1-t5">
 <kw name="Step 5 Get external service">
 <kw library="ClientLibrary" name="Get Ex Services">
-<status status="PASS" endtime="20180401 16:13:07.370" starttime="20180401 16:13:07.370"></status>
+<status endtime="20180401 22:48:23.385" status="PASS" starttime="20180401 22:48:23.385"></status>
 </kw>
-<status status="PASS" endtime="20180401 16:13:07.370" starttime="20180401 16:13:07.369"></status>
+<status endtime="20180401 22:48:23.388" status="PASS" starttime="20180401 22:48:23.385"></status>
 </kw>
 <kw library="ClientLibrary" name="Status Should Be">
 <arguments>
 <arg>SUCCESS</arg>
 </arguments>
-<status status="PASS" endtime="20180401 16:13:07.371" starttime="20180401 16:13:07.370"></status>
+<kw library="BuiltIn" name="Should Be Equal">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>SUCCESS</arg>
+<arg>SUCCESS</arg>
+<arg>Expected status to be 'SUCCESS' but was 'SUCCESS'.</arg>
+</arguments>
+<status endtime="20180401 22:48:23.389" status="PASS" starttime="20180401 22:48:23.389"></status>
 </kw>
-<status status="PASS" critical="yes" endtime="20180401 16:13:07.371" starttime="20180401 16:13:07.368"></status>
+<status endtime="20180401 22:48:23.390" status="PASS" starttime="20180401 22:48:23.388"></status>
+</kw>
+<status endtime="20180401 22:48:23.390" status="PASS" starttime="20180401 22:48:23.384" critical="yes"></status>
 </test>
-<test id="s1-t6" name="Test 6 Set new service for client">
+<test name="Test 6 Set new service for client" id="s1-t6">
 <kw name="Step 6 Set new service for client">
 <arguments>
 <arg>${PORT}</arg>
@@ -97,19 +142,28 @@
 <arguments>
 <arg>${port}</arg>
 </arguments>
-<status status="PASS" endtime="20180401 16:13:07.381" starttime="20180401 16:13:07.372"></status>
+<status endtime="20180401 22:48:23.404" status="PASS" starttime="20180401 22:48:23.392"></status>
 </kw>
-<status status="PASS" endtime="20180401 16:13:07.382" starttime="20180401 16:13:07.372"></status>
+<status endtime="20180401 22:48:23.404" status="PASS" starttime="20180401 22:48:23.391"></status>
 </kw>
 <kw library="ClientLibrary" name="Status Should Be">
 <arguments>
 <arg>202</arg>
 </arguments>
-<status status="PASS" endtime="20180401 16:13:07.384" starttime="20180401 16:13:07.384"></status>
+<kw library="BuiltIn" name="Should Be Equal">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>202</arg>
+<arg>202</arg>
+<arg>Expected status to be '202' but was '202'.</arg>
+</arguments>
+<status endtime="20180401 22:48:23.405" status="PASS" starttime="20180401 22:48:23.405"></status>
 </kw>
-<status status="PASS" critical="yes" endtime="20180401 16:13:07.385" starttime="20180401 16:13:07.371"></status>
+<status endtime="20180401 22:48:23.405" status="PASS" starttime="20180401 22:48:23.405"></status>
+</kw>
+<status endtime="20180401 22:48:23.407" status="PASS" starttime="20180401 22:48:23.391" critical="yes"></status>
 </test>
-<test id="s1-t7" name="Test 7 Waiting for a new service">
+<test name="Test 7 Waiting for a new service" id="s1-t7">
 <kw name="Step 7 Waiting for a new service to be installed">
 <arguments>
 <arg>${PORT}</arg>
@@ -118,53 +172,80 @@
 <arguments>
 <arg>${port}</arg>
 </arguments>
-<msg level="INFO" timestamp="20180401 16:13:17.423">[1]
+<msg level="INFO" timestamp="20180401 22:48:33.439">[1]
 [1]
-[1, 5]
-Service id = 5 added</msg>
-<status status="PASS" endtime="20180401 16:13:17.423" starttime="20180401 16:13:07.387"></status>
+[1, 2]
+Service id = 2 added</msg>
+<status endtime="20180401 22:48:33.440" status="PASS" starttime="20180401 22:48:23.409"></status>
 </kw>
-<status status="PASS" endtime="20180401 16:13:17.423" starttime="20180401 16:13:07.386"></status>
+<status endtime="20180401 22:48:33.440" status="PASS" starttime="20180401 22:48:23.408"></status>
 </kw>
 <kw library="ClientLibrary" name="Status Should Be">
 <arguments>
 <arg>SUCCESS</arg>
 </arguments>
-<status status="PASS" endtime="20180401 16:13:17.424" starttime="20180401 16:13:17.424"></status>
+<kw library="BuiltIn" name="Should Be Equal">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>SUCCESS</arg>
+<arg>SUCCESS</arg>
+<arg>Expected status to be 'SUCCESS' but was 'SUCCESS'.</arg>
+</arguments>
+<status endtime="20180401 22:48:33.442" status="PASS" starttime="20180401 22:48:33.441"></status>
 </kw>
-<status status="PASS" critical="yes" endtime="20180401 16:13:17.425" starttime="20180401 16:13:07.386"></status>
+<status endtime="20180401 22:48:33.442" status="PASS" starttime="20180401 22:48:33.441"></status>
+</kw>
+<status endtime="20180401 22:48:33.442" status="PASS" starttime="20180401 22:48:23.408" critical="yes"></status>
 </test>
-<test id="s1-t8" name="Test 8 Get end balance of client">
+<test name="Test 8 Get end balance of client" id="s1-t8">
 <kw name="Step 8 Get end balance of client">
 <kw library="ClientLibrary" name="Get End Balance">
-<status status="PASS" endtime="20180401 16:13:17.427" starttime="20180401 16:13:17.427"></status>
+<status endtime="20180401 22:48:33.444" status="PASS" starttime="20180401 22:48:33.444"></status>
 </kw>
-<status status="PASS" endtime="20180401 16:13:17.427" starttime="20180401 16:13:17.426"></status>
+<status endtime="20180401 22:48:33.444" status="PASS" starttime="20180401 22:48:33.443"></status>
 </kw>
 <kw library="ClientLibrary" name="Status Should Be">
 <arguments>
 <arg>SUCCESS</arg>
 </arguments>
-<status status="PASS" endtime="20180401 16:13:17.428" starttime="20180401 16:13:17.427"></status>
+<kw library="BuiltIn" name="Should Be Equal">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>SUCCESS</arg>
+<arg>SUCCESS</arg>
+<arg>Expected status to be 'SUCCESS' but was 'SUCCESS'.</arg>
+</arguments>
+<status endtime="20180401 22:48:33.445" status="PASS" starttime="20180401 22:48:33.445"></status>
 </kw>
-<status status="PASS" critical="yes" endtime="20180401 16:13:17.428" starttime="20180401 16:13:17.425"></status>
+<status endtime="20180401 22:48:33.445" status="PASS" starttime="20180401 22:48:33.444"></status>
+</kw>
+<status endtime="20180401 22:48:33.446" status="PASS" starttime="20180401 22:48:33.443" critical="yes"></status>
 </test>
-<test id="s1-t9" name="Test 9 Compare start end balance of client">
+<test name="Test 9 Compare start end balance of client" id="s1-t9">
 <kw name="Step 9 Attemp compare start end balance">
 <kw library="ClientLibrary" name="Compare Start End Balance">
-<status status="PASS" endtime="20180401 16:13:17.429" starttime="20180401 16:13:17.429"></status>
+<status endtime="20180401 22:48:33.447" status="PASS" starttime="20180401 22:48:33.447"></status>
 </kw>
-<status status="PASS" endtime="20180401 16:13:17.429" starttime="20180401 16:13:17.429"></status>
+<status endtime="20180401 22:48:33.447" status="PASS" starttime="20180401 22:48:33.447"></status>
 </kw>
 <kw library="ClientLibrary" name="Status Should Be">
 <arguments>
 <arg>UNSUCCESS</arg>
 </arguments>
-<status status="PASS" endtime="20180401 16:13:17.430" starttime="20180401 16:13:17.429"></status>
+<kw library="BuiltIn" name="Should Be Equal">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>UNSUCCESS</arg>
+<arg>UNSUCCESS</arg>
+<arg>Expected status to be 'UNSUCCESS' but was 'UNSUCCESS'.</arg>
+</arguments>
+<status endtime="20180401 22:48:33.448" status="PASS" starttime="20180401 22:48:33.448"></status>
 </kw>
-<status status="PASS" critical="yes" endtime="20180401 16:13:17.430" starttime="20180401 16:13:17.428"></status>
+<status endtime="20180401 22:48:33.448" status="PASS" starttime="20180401 22:48:33.447"></status>
+</kw>
+<status endtime="20180401 22:48:33.448" status="PASS" starttime="20180401 22:48:33.446" critical="yes"></status>
 </test>
-<status status="PASS" endtime="20180401 16:13:17.431" starttime="20180401 16:13:07.133"></status>
+<status endtime="20180401 22:48:33.449" status="PASS" starttime="20180401 22:48:23.195"></status>
 </suite>
 <statistics>
 <total>
@@ -174,7 +255,7 @@ Service id = 5 added</msg>
 <tag>
 </tag>
 <suite>
-<stat id="s1" fail="0" name="Test Client" pass="9">Test Client</stat>
+<stat id="s1" name="Test Client" fail="0" pass="9">Test Client</stat>
 </suite>
 </statistics>
 <errors>
