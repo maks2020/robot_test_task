@@ -1,21 +1,21 @@
 *** Settings ***
-Library      ../sut/clients.py
+Library      ../sut/ClientLibrary.py
 Variables    ../config/config.py
 
 
 *** Keywords ***
 Step 1 Connect to db
-    get connect step
+    get connect to db
 Step 2 Get balance of client positive
     get balance positive
 Step 3 Get client services
     [Arguments]  ${port}
-    get client services     ${port}
+    get client services    ${port}
 Step 4 Get services
    [Arguments]  ${port}
    get services  ${port}
 Step 5 Get external service
-    get external service
+    get ex services
 Step 6 Set new service for client
     [Arguments]  ${port}
     set client service  ${port}
