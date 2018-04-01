@@ -4,6 +4,7 @@ import time
 
 import sqlite3 as lite
 import requests
+from robot.libraries.BuiltIn import BuiltIn
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATABASE_PATH = os.path.join(BASE_DIR, 'web', 'clients.db')
@@ -152,6 +153,6 @@ class ClientLibrary(DataBase):
             self._status = 'UNSUCCESS'
 
     def status_should_be(self, expected_status):
-        if expected_status != self._status:
-            raise AssertionError("Expected status to be '%s' but was '%s'."
-                                 % (expected_status, self._status))
+        BuiltIn().run_keyword('Should Be Equal', expected_status, self._status,
+                              "Expected status to be '{expected}' but was '{status}'."
+                              .format(expected=expected_status, status=self._status))
