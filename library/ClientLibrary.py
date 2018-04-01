@@ -15,10 +15,6 @@ class DataBase:
         self.conn = None
         self.cur = None
 
-    def connect(self):
-        self.conn = lite.connect(self.db_path)
-        self.cur = self.conn.cursor()
-
     def count_db(self, name_tbl):
         query_count = self.cur.execute('SELECT COUNT(*) FROM {}'.format(name_tbl))
         count,  = query_count.fetchone()
@@ -35,12 +31,11 @@ class DataBase:
         self.close_db()
 
 
-class ClientLibrary:
+class ClientLibrary(DataBase):
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
 
     def __init__(self):
-        self.db = None
-        self.cur = None
+        super().__init__()
         self.id_client_positive = None
         self.balance_client_positive = None
         self.client_services = None
@@ -52,10 +47,12 @@ class ClientLibrary:
         self._status = None
 
     def get_connect_to_db(self):
-        self.db = DataBase()
-        self.db.connect()
-        self.cur = self.db.cur
-        self._status = 'SUCCESS'
+        self.conn = lite.connect(self.db_path)
+        self.cur = self.conn.cursor()
+        query_balances = self.cur.execute('SELECT * FROM BALANCES')
+        balances = query_balances.fetchall()
+        if balances:
+            self._status = 'SUCCESS'
 
     def get_balance_positive(self):
         query_balances = self.cur.execute('SELECT * FROM BALANCES WHERE BALANCE > 0')
@@ -64,12 +61,12 @@ class ClientLibrary:
             self.id_client_positive, self.balance_client_positive = client_tpl
             self._status = 'SUCCESS'
             return client_tpl
-        count_clients_db = self.db.count_db('CLIENTS')
+        count_clients_db = self.count_db('CLIENTS')
         client_id_new = count_clients_db + 1
         client_tpl = (client_id_new, 'Client_{}'.format(client_id_new))
-        self.db.add_row('CLIENTS', client_tpl)
+        self.add_row('CLIENTS', client_tpl)
         balance_tpl = (client_id_new, 3.5)
-        self.db.add_row('BALANCES', balance_tpl)
+        self.add_row('BALANCES', balance_tpl)
         self.id_client_positive, self.balance_client_positive = client_tpl
         client_tpl = query_balances.fetchone()
         query_check_row = self.cur.execute('SELECT BALANCE FROM BALANCES '
