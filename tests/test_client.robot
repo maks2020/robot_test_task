@@ -1,10 +1,6 @@
 *** Settings ***
-Library       /home/mark/PycharmProjects/ps_test_task/sut/clients.py
-Library  ../sut/clients.py
-
-*** Variables ***
-${PORT}     5000
-${POSITIVE_RESULT}    Success
+Library      ../sut/clients.py
+Variables    ../config/config.py
 
 
 *** Keywords ***
