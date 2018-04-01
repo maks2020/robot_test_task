@@ -1,6 +1,6 @@
 *** Settings ***
-Library      ../sut/ClientLibrary.py
-Variables    ../config/config.py
+Library      ../library/ClientLibrary.py
+Variables    ../config/variables.py
 
 
 *** Keywords ***
@@ -60,7 +60,6 @@ Test 7 Waiting for a new service
 Test 8 Get end balance of client
     Step 8 Get end balance of client
     Status should be  SUCCESS
-
 
 Test 9 Compare start end balance of client
     Step 9 Attemp compare start end balance
