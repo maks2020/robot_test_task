@@ -55,6 +55,7 @@ class ClientLibrary(DataBase):
             self._status = 'SUCCESS'
 
     def get_balance_positive(self):
+        self._status = None
         query_balances = self.cur.execute('SELECT * FROM BALANCES WHERE BALANCE > 0')
         client_tpl = query_balances.fetchone()
         if client_tpl:
@@ -77,6 +78,7 @@ class ClientLibrary(DataBase):
             return client_tpl
 
     def get_client_services(self, port):
+        self._status = None
         data = {'client_id': self.id_client_positive}
         url = 'http://localhost:{port}/client/services'.format(port=port)
         response = requests.post(url, headers=self.headers, json=data)
@@ -86,6 +88,7 @@ class ClientLibrary(DataBase):
         return client_services_
 
     def get_services(self, port):
+        self._status = None
         url = 'http://localhost:{port}/services'.format(port=port)
         response = requests.get(url, headers=self.headers)
         services_ = response.json()
@@ -94,6 +97,7 @@ class ClientLibrary(DataBase):
         return services_
 
     def get_ex_services(self):
+        self._status = None
         if self.client_services['count'] != self.services['count']:
             diff_services = [item for item in self.services['items']
                              if item not in self.client_services['items']]
@@ -105,6 +109,7 @@ class ClientLibrary(DataBase):
                 return ex_service
 
     def set_client_service(self, port):
+        self._status = None
         if self.id_service is not None:
             url = 'http://localhost:{port}/client/add_service'.format(port=port)
             data = {'client_id': self.id_client_positive, 'service_id': self.id_service}
@@ -113,6 +118,7 @@ class ClientLibrary(DataBase):
             return response.status_code
 
     def wait_new_service(self, port):
+        self._status = None
         time_wait = 0
         while True:
             client_services_ = self.get_client_services(port)
@@ -128,6 +134,7 @@ class ClientLibrary(DataBase):
             time.sleep(5)
 
     def get_end_balance(self):
+        self._status = None
         query_end_balance = self.cur.execute('SELECT BALANCE FROM BALANCES '
                                              'WHERE CLIENTS_CLIENT_ID=?',
                                              (self.id_client_positive,))
@@ -138,6 +145,7 @@ class ClientLibrary(DataBase):
             return end_balance
 
     def compare_start_end_balance(self):
+        self._status = None
         if self.end_balance == (self.balance_client_positive - self.cost_service):
             self._status = 'SUCCESS'
         else:
