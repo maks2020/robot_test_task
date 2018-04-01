@@ -35,7 +35,9 @@ class DataBase:
         self.close_db()
 
 
-class Client:
+class ClientLibrary:
+    ROBOT_LIBRARY_SCOPE = 'GLOBAL'
+
     def __init__(self):
         self.db = None
         self.cur = None
@@ -148,46 +150,3 @@ class Client:
         if expected_status != self._status:
             raise AssertionError("Expected status to be '%s' but was '%s'."
                                  % (expected_status, self._status))
-
-
-client = Client()
-
-
-def get_connect_step():
-    return client.get_connect_to_db()
-
-
-def get_balance_positive():
-    return client.get_balance_positive()
-
-
-def get_client_services(port):
-    return client.get_client_services(port)
-
-
-def get_services(port):
-    return client.get_services(port)
-
-
-def get_external_service():
-    return client.get_ex_services()
-
-
-def set_client_service(port):
-    return client.set_client_service(port)
-
-
-def wait_new_service(port):
-    return client.wait_new_service(port)
-
-
-def get_end_balance():
-    return client.get_end_balance()
-
-
-def compare_start_end_balance():
-    return client.compare_start_end_balance()
-
-
-def status_should_be(expected_status):
-    client.status_should_be(expected_status)
