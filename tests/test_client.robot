@@ -17,8 +17,8 @@ Step 4 Get services
 Step 5 Get external service
     get unused services
 Step 6 Set new service for client
-    [Arguments]  ${port}
-    set client service  ${port}
+    [Arguments]  ${url}
+    set client service  ${url}
 Step 7 Waiting for a new service to be installed
     [Arguments]  ${url}
     wait new service  ${url}
@@ -50,7 +50,7 @@ Test 5 Get external service
 #    Status should be  SUCCESS
 
 Test 6 Set new service for client
-    Step 6 Set new service for client  ${PORT}
+    Step 6 Set new service for client  ${URL}
 #    Status should be  202
 
 Test 7 Waiting for a new service
