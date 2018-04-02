@@ -34,6 +34,7 @@ class DataBase:
 
 class ClientLibrary(DataBase):
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
+    HEADERS = {'Content-Type': 'application/json'}
 
     def __init__(self):
         super(ClientLibrary, self).__init__()
@@ -44,7 +45,6 @@ class ClientLibrary(DataBase):
         self._id_service = None
         self._cost_service = None
         self._end_balance = None
-        self._headers = {'Content-Type': 'application/json'}
         self._status = None
 
     def get_connect_to_db(self):
@@ -82,7 +82,7 @@ class ClientLibrary(DataBase):
         self._status = None
         data = {'client_id': self._id_client_positive}
         url = 'http://localhost:{port}/client/services'.format(port=port)
-        response = requests.post(url, headers=self._headers, json=data)
+        response = requests.post(url, headers=ClientLibrary.HEADERS, json=data)
         client_services_ = response.json()
         self._client_services = client_services_
         self._status = str(response.status_code)
@@ -91,7 +91,7 @@ class ClientLibrary(DataBase):
     def get_services(self, port):
         self._status = None
         url = 'http://localhost:{port}/services'.format(port=port)
-        response = requests.get(url, headers=self._headers)
+        response = requests.get(url, headers=ClientLibrary.HEADERS)
         services_ = response.json()
         self._services = services_
         self._status = str(response.status_code)
@@ -114,7 +114,7 @@ class ClientLibrary(DataBase):
         if self._id_service is not None:
             url = 'http://localhost:{port}/client/add_service'.format(port=port)
             data = {'client_id': self._id_client_positive, 'service_id': self._id_service}
-            response = requests.post(url, headers=self._headers, json=data)
+            response = requests.post(url, headers=ClientLibrary.HEADERS, json=data)
             self._status = str(response.status_code)
             return response.status_code
 
