@@ -140,24 +140,7 @@ class ClientLibrary(DataBase):
         return balance
 
     def compare_start_end_balance(self):
-        self._status = None
-        if self._balance == (self._balance_client_positive - self._cost_service):
-            self._status = 'SUCCESS'
-        else:
-            self._status = 'UNSUCCESS'
-
-    def status_should_be(self, expected_status):
-        BuiltIn().run_keyword('Should Be Equal', expected_status, self._status,
+        balance_end = self._balance_client_positive - self._cost_service
+        BuiltIn().run_keyword('Should Be Equal', balance_end, self._balance,
                               "Expected status to be '{expected}' but was '{status}'."
-                              .format(expected=expected_status, status=self._status))
-
-
-if __name__ == '__main__':
-    client = ClientLibrary()
-    client.connect_to_db()
-    print(client.get_balance_positive())
-    print(client.get_client_services('http://localhost:5000'))
-    print(client.get_services('http://localhost:5000'))
-    print(client.get_ex_services())
-    print(client.set_client_service(5000))
-    print(client.wait_new_service('http://localhost:5000'))
+                              .format(expected=balance_end, status=self._balance))
