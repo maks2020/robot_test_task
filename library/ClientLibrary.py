@@ -46,7 +46,7 @@ class ClientLibrary(DataBase):
         self._services = None
         self._id_service = None
         self._cost_service = None
-        self._end_balance = None
+        self._balance = None
         self._status = None
 
     def connect_to_db(self):
@@ -130,20 +130,18 @@ class ClientLibrary(DataBase):
                 return client_services_
             time.sleep(5)
 
-    def get_end_balance(self):
-        self._status = None
-        query_end_balance = self.cursor.execute('SELECT BALANCE FROM BALANCES '
+    def get_balance(self):
+        query_balance = self.cursor.execute('SELECT BALANCE FROM BALANCES '
                                              'WHERE CLIENTS_CLIENT_ID=?',
                                              (self._id_client_positive,))
-        end_balance, = query_end_balance.fetchone()
-        if end_balance:
-            self._end_balance = end_balance
-            self._status = 'SUCCESS'
-            return end_balance
+        balance, = query_balance.fetchone()
+        assert balance
+        self._balance = balance
+        return balance
 
     def compare_start_end_balance(self):
         self._status = None
-        if self._end_balance == (self._balance_client_positive - self._cost_service):
+        if self._balance == (self._balance_client_positive - self._cost_service):
             self._status = 'SUCCESS'
         else:
             self._status = 'UNSUCCESS'
