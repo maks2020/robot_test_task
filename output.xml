@@ -1,105 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generated="20180402 22:02:06.557" generator="Robot 3.0.2 (Python 3.5.3 on linux)">
-<suite source="/home/mark/PycharmProjects/ps_test_task/tests/test_client.robot" name="Test Client" id="s1">
-<test name="Test 1 Connect to db" id="s1-t1">
-<kw name="Step 1 Connect to db">
+<robot generated="20180402 22:12:28.575" generator="Robot 3.0.2 (Python 3.5.3 on linux)">
+<suite id="s1" name="Test Client" source="/home/mark/PycharmProjects/ps_test_task/tests/test_client.robot">
+<test id="s1-t1" name="Test case">
 <kw name="Connect To Db" library="ClientLibrary">
-<status starttime="20180402 22:02:06.967" status="PASS" endtime="20180402 22:02:06.968"></status>
+<status status="PASS" endtime="20180402 22:12:28.767" starttime="20180402 22:12:28.765"></status>
 </kw>
-<status starttime="20180402 22:02:06.967" status="PASS" endtime="20180402 22:02:06.968"></status>
-</kw>
-<status starttime="20180402 22:02:06.966" status="PASS" endtime="20180402 22:02:06.969" critical="yes"></status>
-</test>
-<test name="Test 2 Get balance" id="s1-t2">
-<kw name="Step 2 Get balance of client positive">
 <kw name="Get Balance Positive" library="ClientLibrary">
-<status starttime="20180402 22:02:06.970" status="PASS" endtime="20180402 22:02:06.972"></status>
+<status status="PASS" endtime="20180402 22:12:28.768" starttime="20180402 22:12:28.767"></status>
 </kw>
-<status starttime="20180402 22:02:06.970" status="PASS" endtime="20180402 22:02:06.972"></status>
-</kw>
-<status starttime="20180402 22:02:06.969" status="PASS" endtime="20180402 22:02:06.972" critical="yes"></status>
-</test>
-<test name="Test 3 Get client services" id="s1-t3">
-<kw name="Step 3 Get client services">
-<arguments>
-<arg>${URL}</arg>
-</arguments>
 <kw name="Get Client Services" library="ClientLibrary">
 <arguments>
-<arg>${url}</arg>
-</arguments>
-<status starttime="20180402 22:02:06.975" status="PASS" endtime="20180402 22:02:07.007"></status>
-</kw>
-<status starttime="20180402 22:02:06.973" status="PASS" endtime="20180402 22:02:07.008"></status>
-</kw>
-<status starttime="20180402 22:02:06.973" status="PASS" endtime="20180402 22:02:07.008" critical="yes"></status>
-</test>
-<test name="Test 4 Get services" id="s1-t4">
-<kw name="Step 4 Get services">
-<arguments>
 <arg>${URL}</arg>
 </arguments>
+<status status="PASS" endtime="20180402 22:12:28.859" starttime="20180402 22:12:28.768"></status>
+</kw>
 <kw name="Get Services" library="ClientLibrary">
 <arguments>
-<arg>${url}</arg>
-</arguments>
-<status starttime="20180402 22:02:07.011" status="PASS" endtime="20180402 22:02:07.030"></status>
-</kw>
-<status starttime="20180402 22:02:07.010" status="PASS" endtime="20180402 22:02:07.030"></status>
-</kw>
-<status starttime="20180402 22:02:07.009" status="PASS" endtime="20180402 22:02:07.031" critical="yes"></status>
-</test>
-<test name="Test 5 Get external service" id="s1-t5">
-<kw name="Step 5 Get external service">
-<kw name="Get Unused Services" library="ClientLibrary">
-<status starttime="20180402 22:02:07.036" status="PASS" endtime="20180402 22:02:07.037"></status>
-</kw>
-<status starttime="20180402 22:02:07.036" status="PASS" endtime="20180402 22:02:07.037"></status>
-</kw>
-<status starttime="20180402 22:02:07.032" status="PASS" endtime="20180402 22:02:07.037" critical="yes"></status>
-</test>
-<test name="Test 6 Set new service for client" id="s1-t6">
-<kw name="Step 6 Set new service for client">
-<arguments>
 <arg>${URL}</arg>
 </arguments>
+<status status="PASS" endtime="20180402 22:12:28.867" starttime="20180402 22:12:28.860"></status>
+</kw>
+<kw name="Get Unused Services" library="ClientLibrary">
+<status status="PASS" endtime="20180402 22:12:28.868" starttime="20180402 22:12:28.868"></status>
+</kw>
 <kw name="Set Client Service" library="ClientLibrary">
 <arguments>
-<arg>${url}</arg>
+<arg>${URL}</arg>
 </arguments>
-<status starttime="20180402 22:02:07.043" status="PASS" endtime="20180402 22:02:07.053"></status>
+<status status="PASS" endtime="20180402 22:12:28.879" starttime="20180402 22:12:28.868"></status>
 </kw>
-<status starttime="20180402 22:02:07.043" status="PASS" endtime="20180402 22:02:07.054"></status>
-</kw>
-<status starttime="20180402 22:02:07.037" status="PASS" endtime="20180402 22:02:07.054" critical="yes"></status>
-</test>
-<test name="Test 7 Waiting for a new service" id="s1-t7">
-<kw name="Step 7 Waiting for a new service to be installed">
+<kw name="Wait New Service" library="ClientLibrary">
 <arguments>
 <arg>${URL}</arg>
 </arguments>
-<kw name="Wait New Service" library="ClientLibrary">
-<arguments>
-<arg>${url}</arg>
-</arguments>
-<msg level="INFO" timestamp="20180402 22:02:12.084">Service id = 3 added</msg>
-<status starttime="20180402 22:02:07.056" status="PASS" endtime="20180402 22:02:12.084"></status>
+<msg timestamp="20180402 22:12:58.955" level="INFO">Service id = 3 added</msg>
+<status status="PASS" endtime="20180402 22:12:58.955" starttime="20180402 22:12:28.881"></status>
 </kw>
-<status starttime="20180402 22:02:07.056" status="PASS" endtime="20180402 22:02:12.084"></status>
-</kw>
-<status starttime="20180402 22:02:07.055" status="PASS" endtime="20180402 22:02:12.085" critical="yes"></status>
-</test>
-<test name="Test 8 Get end balance of client" id="s1-t8">
-<kw name="Step 8 Get end balance of client">
 <kw name="Get Balance" library="ClientLibrary">
-<status starttime="20180402 22:02:12.086" status="PASS" endtime="20180402 22:02:12.086"></status>
+<status status="PASS" endtime="20180402 22:12:58.956" starttime="20180402 22:12:58.955"></status>
 </kw>
-<status starttime="20180402 22:02:12.086" status="PASS" endtime="20180402 22:02:12.086"></status>
-</kw>
-<status starttime="20180402 22:02:12.085" status="PASS" endtime="20180402 22:02:12.087" critical="yes"></status>
-</test>
-<test name="Test 9 Compare start end balance of client" id="s1-t9">
-<kw name="Step 9 Attemp compare start end balance">
 <kw name="Compare Start End Balance" library="ClientLibrary">
 <kw name="Should Be Equal" library="BuiltIn">
 <doc>Fails if the given objects are unequal.</doc>
@@ -108,26 +47,24 @@
 <arg>3.5</arg>
 <arg>Expected status to be '3.35' but was '3.5'.</arg>
 </arguments>
-<msg level="FAIL" timestamp="20180402 22:02:12.089">Expected status to be '3.35' but was '3.5'.: 3.35 != 3.5</msg>
-<status starttime="20180402 22:02:12.088" status="FAIL" endtime="20180402 22:02:12.089"></status>
+<msg timestamp="20180402 22:12:58.957" level="FAIL">Expected status to be '3.35' but was '3.5'.: 3.35 != 3.5</msg>
+<status status="FAIL" endtime="20180402 22:12:58.957" starttime="20180402 22:12:58.956"></status>
 </kw>
-<status starttime="20180402 22:02:12.088" status="FAIL" endtime="20180402 22:02:12.089"></status>
+<status status="FAIL" endtime="20180402 22:12:58.957" starttime="20180402 22:12:58.956"></status>
 </kw>
-<status starttime="20180402 22:02:12.088" status="FAIL" endtime="20180402 22:02:12.089"></status>
-</kw>
-<status starttime="20180402 22:02:12.087" status="FAIL" endtime="20180402 22:02:12.089" critical="yes">Expected status to be '3.35' but was '3.5'.: 3.35 != 3.5</status>
+<status status="FAIL" critical="yes" endtime="20180402 22:12:58.958" starttime="20180402 22:12:28.764">Expected status to be '3.35' but was '3.5'.: 3.35 != 3.5</status>
 </test>
-<status starttime="20180402 22:02:06.559" status="FAIL" endtime="20180402 22:02:12.091"></status>
+<status status="FAIL" endtime="20180402 22:12:58.959" starttime="20180402 22:12:28.577"></status>
 </suite>
 <statistics>
 <total>
-<stat fail="1" pass="8">Critical Tests</stat>
-<stat fail="1" pass="8">All Tests</stat>
+<stat pass="0" fail="1">Critical Tests</stat>
+<stat pass="0" fail="1">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat fail="1" name="Test Client" id="s1" pass="8">Test Client</stat>
+<stat id="s1" name="Test Client" pass="0" fail="1">Test Client</stat>
 </suite>
 </statistics>
 <errors>
