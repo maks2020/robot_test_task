@@ -23,7 +23,7 @@ Step 7 Waiting for a new service to be installed
     [Arguments]  ${url}
     wait new service  ${url}
 Step 8 Get end balance of client
-    get end balance
+    get balance
 Step 9 Attemp compare start end balance
     compare start end balance
 
