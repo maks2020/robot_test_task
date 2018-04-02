@@ -50,10 +50,10 @@ class ClientLibrary(DataBase):
     def connect_to_db(self):
         self.connect = sqlite3.connect(self._db_path)
         self.cursor = self.connect.cursor()
-        query_balances = self.cursor.execute('SELECT * FROM BALANCES')
-        balances = query_balances.fetchall()
-        if balances:
-            self._status = 'SUCCESS'
+        try:
+            self.cursor.execute('SELECT * FROM BALANCES')
+        except sqlite3.OperationalError:
+            raise sqlite3.OperationalError('not connect database for task')
 
     def get_balance_positive(self):
         self._status = None
@@ -155,3 +155,8 @@ class ClientLibrary(DataBase):
         BuiltIn().run_keyword('Should Be Equal', expected_status, self._status,
                               "Expected status to be '{expected}' but was '{status}'."
                               .format(expected=expected_status, status=self._status))
+
+
+if __name__ == '__main__':
+    client = ClientLibrary()
+    client.connect_to_db()
