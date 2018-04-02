@@ -1,6 +1,7 @@
 import os
 import random
 import time
+from urllib.parse import urljoin
 
 import sqlite3
 import requests
@@ -72,14 +73,13 @@ class ClientLibrary(DataBase):
             self._id_client_positive, self._balance_client_positive = balance_data
         return balance_data
 
-    def get_client_services(self, port):
-        self._status = None
+    def get_client_services(self, url):
         data = {'client_id': self._id_client_positive}
-        url = 'http://localhost:{port}/client/services'.format(port=port)
+        url = urljoin(url, 'client/services')
         response = requests.post(url, headers=ClientLibrary.HEADERS, json=data)
         client_services_ = response.json()
         self._client_services = client_services_
-        self._status = str(response.status_code)
+        assert response.status_code == 200
         return client_services_
 
     def get_services(self, port):
@@ -112,11 +112,11 @@ class ClientLibrary(DataBase):
             self._status = str(response.status_code)
             return response.status_code
 
-    def wait_new_service(self, port):
+    def wait_new_service(self, url):
         self._status = None
         time_wait = 0
         while True:
-            client_services_ = self.get_client_services(port)
+            client_services_ = self.get_client_services(url)
             id_services_lst = [item['id'] for item in client_services_['items']]
             if self._id_service in id_services_lst:
                 print('Service id = {} added'.format(self._id_service))
@@ -155,3 +155,8 @@ if __name__ == '__main__':
     client = ClientLibrary()
     client.connect_to_db()
     print(client.get_balance_positive())
+    print(client.get_client_services('http://localhost:5000'))
+    print(client.get_services(5000))
+    print(client.get_ex_services())
+    print(client.set_client_service(5000))
+    print(client.wait_new_service(5000))
