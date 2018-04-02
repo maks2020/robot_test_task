@@ -9,8 +9,8 @@ Step 1 Connect to db
 Step 2 Get balance of client positive
     get balance positive
 Step 3 Get client services
-    [Arguments]  ${port}
-    get client services    ${port}
+    [Arguments]  ${url}
+    get client services    ${url}
 Step 4 Get services
    [Arguments]  ${port}
    get services  ${port}
@@ -20,8 +20,8 @@ Step 6 Set new service for client
     [Arguments]  ${port}
     set client service  ${port}
 Step 7 Waiting for a new service to be installed
-    [Arguments]  ${port}
-    wait new service  ${port}
+    [Arguments]  ${url}
+    wait new service  ${url}
 Step 8 Get end balance of client
     get end balance
 Step 9 Attemp compare start end balance
@@ -38,7 +38,7 @@ Test 2 Get balance
 #    Status should be  SUCCESS
 
 Test 3 Get client services
-    Step 3 Get client services    ${PORT}
+    Step 3 Get client services    ${URL}
 #    Status should be  200
 
 Test 4 Get services
@@ -54,7 +54,7 @@ Test 6 Set new service for client
 #    Status should be  202
 
 Test 7 Waiting for a new service
-    Step 7 Waiting for a new service to be installed  ${PORT}
+    Step 7 Waiting for a new service to be installed  ${URL}
 #    Status should be  SUCCESS
 
 Test 8 Get end balance of client
