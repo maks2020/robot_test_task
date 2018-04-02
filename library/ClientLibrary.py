@@ -57,26 +57,20 @@ class ClientLibrary(DataBase):
 
     def get_balance_positive(self):
         self._status = None
-        query_balances = self.cursor.execute('SELECT * FROM BALANCES WHERE BALANCE > 0')
-        client_tpl = query_balances.fetchone()
-        if client_tpl:
-            self._id_client_positive, self._balance_client_positive = client_tpl
-            self._status = 'SUCCESS'
-            return client_tpl
-        count_clients_db = self.count_db('CLIENTS')
-        client_id_new = count_clients_db + 1
-        client_tpl = (client_id_new, 'Client_{}'.format(client_id_new))
-        self.add_row('CLIENTS', client_tpl)
-        balance_tpl = (client_id_new, 3.5)
-        self.add_row('BALANCES', balance_tpl)
-        self._id_client_positive, self._balance_client_positive = client_tpl
-        client_tpl = query_balances.fetchone()
-        query_check_row = self.cursor.execute('SELECT BALANCE FROM BALANCES '
-                                           'WHERE CLIENTS_CLIENT_ID=?', (client_id_new,))
-        check_row, = query_check_row.fetchone()
-        if check_row:
-            self._status = 'SUCCESS'
-            return client_tpl
+        client_balance = self.cursor.execute('SELECT * FROM BALANCES WHERE BALANCE > 0 LIMIT 1')
+        balance_data = client_balance.fetchone()
+        if balance_data:
+            self._id_client_positive, self._balance_client_positive = balance_data
+            return balance_data
+        else:
+            count_clients_db = self.count_db('CLIENTS')
+            client_id_new = count_clients_db + 1
+            client_data = (client_id_new, 'Client_{}'.format(client_id_new))
+            self.add_row('CLIENTS', client_data)
+            balance_data = (client_id_new, 5.0)
+            self.add_row('BALANCES', balance_data)
+            self._id_client_positive, self._balance_client_positive = balance_data
+        return balance_data
 
     def get_client_services(self, port):
         self._status = None
@@ -160,3 +154,4 @@ class ClientLibrary(DataBase):
 if __name__ == '__main__':
     client = ClientLibrary()
     client.connect_to_db()
+    print(client.get_balance_positive())
