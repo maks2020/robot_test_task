@@ -90,17 +90,15 @@ class ClientLibrary(DataBase):
         assert response.status_code == 200
         return services_
 
-    def get_ex_services(self):
-        self._status = None
+    def get_unused_services(self):
         if self._client_services['count'] != self._services['count']:
             diff_services = [item for item in self._services['items']
                              if item not in self._client_services['items']]
-            ex_service = random.choice(diff_services)
-            if ex_service:
-                self._id_service = ex_service['id']
-                self._cost_service = ex_service['cost']
-                self._status = 'SUCCESS'
-                return ex_service
+            unused_service = random.choice(diff_services)
+            assert unused_service
+            self._id_service = unused_service['id']
+            self._cost_service = unused_service['cost']
+            return unused_service
 
     def set_client_service(self, port):
         self._status = None
