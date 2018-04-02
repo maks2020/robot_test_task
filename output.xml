@@ -1,69 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 3.0.2 (Python 3.5.3 on linux)" generated="20180402 14:53:54.157">
-<suite id="s1" name="Test Client" source="/home/mark/PycharmProjects/ps_test_task/tests/test_client.robot">
+<robot generator="Robot 3.0.2 (Python 3.5.3 on linux)" generated="20180402 17:12:56.305">
+<suite source="/home/mark/PycharmProjects/ps_test_task/tests/test_client.robot" id="s1" name="Test Client">
 <test id="s1-t1" name="Test 1 Connect to db">
 <kw name="Step 1 Connect to db">
 <kw library="ClientLibrary" name="Connect To Db">
-<msg timestamp="20180402 14:53:54.647" level="FAIL">OperationalError: no such table: BALANCE</msg>
-<status endtime="20180402 14:53:54.647" status="FAIL" starttime="20180402 14:53:54.627"></status>
+<status endtime="20180402 17:12:56.835" status="PASS" starttime="20180402 17:12:56.821"></status>
 </kw>
-<status endtime="20180402 14:53:54.647" status="FAIL" starttime="20180402 14:53:54.627"></status>
+<status endtime="20180402 17:12:56.835" status="PASS" starttime="20180402 17:12:56.821"></status>
 </kw>
-<status critical="yes" endtime="20180402 14:53:54.648" status="FAIL" starttime="20180402 14:53:54.626">OperationalError: no such table: BALANCE</status>
+<status endtime="20180402 17:12:56.836" critical="yes" status="PASS" starttime="20180402 17:12:56.820"></status>
 </test>
 <test id="s1-t2" name="Test 2 Get balance">
 <kw name="Step 2 Get balance of client positive">
 <kw library="ClientLibrary" name="Get Balance Positive">
-<status endtime="20180402 14:53:54.655" status="PASS" starttime="20180402 14:53:54.655"></status>
+<status endtime="20180402 17:12:56.841" status="PASS" starttime="20180402 17:12:56.841"></status>
 </kw>
-<status endtime="20180402 14:53:54.655" status="PASS" starttime="20180402 14:53:54.654"></status>
+<status endtime="20180402 17:12:56.842" status="PASS" starttime="20180402 17:12:56.837"></status>
 </kw>
-<kw library="ClientLibrary" name="Status Should Be">
-<arguments>
-<arg>SUCCESS</arg>
-</arguments>
-<kw library="BuiltIn" name="Should Be Equal">
-<doc>Fails if the given objects are unequal.</doc>
-<arguments>
-<arg>SUCCESS</arg>
-<arg>SUCCESS</arg>
-<arg>Expected status to be 'SUCCESS' but was 'SUCCESS'.</arg>
-</arguments>
-<status endtime="20180402 14:53:54.657" status="PASS" starttime="20180402 14:53:54.656"></status>
-</kw>
-<status endtime="20180402 14:53:54.657" status="PASS" starttime="20180402 14:53:54.656"></status>
-</kw>
-<status critical="yes" endtime="20180402 14:53:54.657" status="PASS" starttime="20180402 14:53:54.654"></status>
+<status endtime="20180402 17:12:56.843" critical="yes" status="PASS" starttime="20180402 17:12:56.837"></status>
 </test>
 <test id="s1-t3" name="Test 3 Get client services">
 <kw name="Step 3 Get client services">
 <arguments>
-<arg>${PORT}</arg>
+<arg>${URL}</arg>
 </arguments>
 <kw library="ClientLibrary" name="Get Client Services">
 <arguments>
-<arg>${port}</arg>
+<arg>${url}</arg>
 </arguments>
-<status endtime="20180402 14:53:54.674" status="PASS" starttime="20180402 14:53:54.664"></status>
+<status endtime="20180402 17:12:56.888" status="PASS" starttime="20180402 17:12:56.846"></status>
 </kw>
-<status endtime="20180402 14:53:54.674" status="PASS" starttime="20180402 14:53:54.663"></status>
+<status endtime="20180402 17:12:56.888" status="PASS" starttime="20180402 17:12:56.845"></status>
 </kw>
-<kw library="ClientLibrary" name="Status Should Be">
-<arguments>
-<arg>200</arg>
-</arguments>
-<kw library="BuiltIn" name="Should Be Equal">
-<doc>Fails if the given objects are unequal.</doc>
-<arguments>
-<arg>200</arg>
-<arg>200</arg>
-<arg>Expected status to be '200' but was '200'.</arg>
-</arguments>
-<status endtime="20180402 14:53:54.676" status="PASS" starttime="20180402 14:53:54.675"></status>
-</kw>
-<status endtime="20180402 14:53:54.676" status="PASS" starttime="20180402 14:53:54.675"></status>
-</kw>
-<status critical="yes" endtime="20180402 14:53:54.676" status="PASS" starttime="20180402 14:53:54.663"></status>
+<status endtime="20180402 17:12:56.889" critical="yes" status="PASS" starttime="20180402 17:12:56.844"></status>
 </test>
 <test id="s1-t4" name="Test 4 Get services">
 <kw name="Step 4 Get services">
@@ -74,54 +43,20 @@
 <arguments>
 <arg>${port}</arg>
 </arguments>
-<status endtime="20180402 14:53:54.686" status="PASS" starttime="20180402 14:53:54.677"></status>
+<status endtime="20180402 17:12:56.897" status="PASS" starttime="20180402 17:12:56.890"></status>
 </kw>
-<status endtime="20180402 14:53:54.686" status="PASS" starttime="20180402 14:53:54.677"></status>
+<status endtime="20180402 17:12:56.897" status="PASS" starttime="20180402 17:12:56.890"></status>
 </kw>
-<kw library="ClientLibrary" name="Status Should Be">
-<arguments>
-<arg>200</arg>
-</arguments>
-<kw library="BuiltIn" name="Should Be Equal">
-<doc>Fails if the given objects are unequal.</doc>
-<arguments>
-<arg>200</arg>
-<arg>200</arg>
-<arg>Expected status to be '200' but was '200'.</arg>
-</arguments>
-<status endtime="20180402 14:53:54.687" status="PASS" starttime="20180402 14:53:54.687"></status>
-</kw>
-<status endtime="20180402 14:53:54.687" status="PASS" starttime="20180402 14:53:54.686"></status>
-</kw>
-<status critical="yes" endtime="20180402 14:53:54.688" status="PASS" starttime="20180402 14:53:54.676"></status>
+<status endtime="20180402 17:12:56.898" critical="yes" status="PASS" starttime="20180402 17:12:56.889"></status>
 </test>
 <test id="s1-t5" name="Test 5 Get external service">
 <kw name="Step 5 Get external service">
 <kw library="ClientLibrary" name="Get Ex Services">
-<status endtime="20180402 14:53:54.690" status="PASS" starttime="20180402 14:53:54.690"></status>
+<status endtime="20180402 17:12:56.900" status="PASS" starttime="20180402 17:12:56.899"></status>
 </kw>
-<status endtime="20180402 14:53:54.690" status="PASS" starttime="20180402 14:53:54.689"></status>
+<status endtime="20180402 17:12:56.900" status="PASS" starttime="20180402 17:12:56.899"></status>
 </kw>
-<kw library="ClientLibrary" name="Status Should Be">
-<arguments>
-<arg>SUCCESS</arg>
-</arguments>
-<kw library="BuiltIn" name="Should Be Equal">
-<doc>Fails if the given objects are unequal.</doc>
-<arguments>
-<arg>SUCCESS</arg>
-<arg>None</arg>
-<arg>Expected status to be 'SUCCESS' but was 'None'.</arg>
-</arguments>
-<msg timestamp="20180402 14:53:54.691" level="INFO">Argument types are:
-&lt;type 'unicode'&gt;
-&lt;class 'NoneType'&gt;</msg>
-<msg timestamp="20180402 14:53:54.691" level="FAIL">Expected status to be 'SUCCESS' but was 'None'.: SUCCESS != None</msg>
-<status endtime="20180402 14:53:54.691" status="FAIL" starttime="20180402 14:53:54.691"></status>
-</kw>
-<status endtime="20180402 14:53:54.691" status="FAIL" starttime="20180402 14:53:54.690"></status>
-</kw>
-<status critical="yes" endtime="20180402 14:53:54.692" status="FAIL" starttime="20180402 14:53:54.688">Expected status to be 'SUCCESS' but was 'None'.: SUCCESS != None</status>
+<status endtime="20180402 17:12:56.901" critical="yes" status="PASS" starttime="20180402 17:12:56.898"></status>
 </test>
 <test id="s1-t6" name="Test 6 Set new service for client">
 <kw name="Step 6 Set new service for client">
@@ -132,92 +67,57 @@
 <arguments>
 <arg>${port}</arg>
 </arguments>
-<status endtime="20180402 14:53:54.694" status="PASS" starttime="20180402 14:53:54.694"></status>
+<status endtime="20180402 17:12:56.930" status="PASS" starttime="20180402 17:12:56.903"></status>
 </kw>
-<status endtime="20180402 14:53:54.694" status="PASS" starttime="20180402 14:53:54.693"></status>
+<status endtime="20180402 17:12:56.931" status="PASS" starttime="20180402 17:12:56.902"></status>
 </kw>
-<kw library="ClientLibrary" name="Status Should Be">
-<arguments>
-<arg>202</arg>
-</arguments>
-<kw library="BuiltIn" name="Should Be Equal">
-<doc>Fails if the given objects are unequal.</doc>
-<arguments>
-<arg>202</arg>
-<arg>None</arg>
-<arg>Expected status to be '202' but was 'None'.</arg>
-</arguments>
-<msg timestamp="20180402 14:53:54.695" level="INFO">Argument types are:
-&lt;type 'unicode'&gt;
-&lt;class 'NoneType'&gt;</msg>
-<msg timestamp="20180402 14:53:54.695" level="FAIL">Expected status to be '202' but was 'None'.: 202 != None</msg>
-<status endtime="20180402 14:53:54.695" status="FAIL" starttime="20180402 14:53:54.695"></status>
-</kw>
-<status endtime="20180402 14:53:54.695" status="FAIL" starttime="20180402 14:53:54.694"></status>
-</kw>
-<status critical="yes" endtime="20180402 14:53:54.696" status="FAIL" starttime="20180402 14:53:54.692">Expected status to be '202' but was 'None'.: 202 != None</status>
+<status endtime="20180402 17:12:56.931" critical="yes" status="PASS" starttime="20180402 17:12:56.902"></status>
 </test>
 <test id="s1-t7" name="Test 7 Waiting for a new service">
 <kw name="Step 7 Waiting for a new service to be installed">
 <arguments>
-<arg>${PORT}</arg>
+<arg>${URL}</arg>
 </arguments>
 <kw library="ClientLibrary" name="Wait New Service">
 <arguments>
-<arg>${port}</arg>
+<arg>${url}</arg>
 </arguments>
-<msg timestamp="20180402 14:54:54.858" level="FAIL">TimeoutError: Exceeded waiting time request...</msg>
-<status endtime="20180402 14:54:54.858" status="FAIL" starttime="20180402 14:53:54.697"></status>
+<msg level="INFO" timestamp="20180402 17:13:17.031">Service id = 3 added</msg>
+<status endtime="20180402 17:13:17.031" status="PASS" starttime="20180402 17:12:56.933"></status>
 </kw>
-<status endtime="20180402 14:54:54.859" status="FAIL" starttime="20180402 14:53:54.697"></status>
+<status endtime="20180402 17:13:17.031" status="PASS" starttime="20180402 17:12:56.932"></status>
 </kw>
-<status critical="yes" endtime="20180402 14:54:54.859" status="FAIL" starttime="20180402 14:53:54.696">TimeoutError: Exceeded waiting time request...</status>
+<status endtime="20180402 17:13:17.032" critical="yes" status="PASS" starttime="20180402 17:12:56.932"></status>
 </test>
 <test id="s1-t8" name="Test 8 Get end balance of client">
 <kw name="Step 8 Get end balance of client">
 <kw library="ClientLibrary" name="Get End Balance">
-<status endtime="20180402 14:54:54.862" status="PASS" starttime="20180402 14:54:54.862"></status>
+<status endtime="20180402 17:13:17.034" status="PASS" starttime="20180402 17:13:17.033"></status>
 </kw>
-<status endtime="20180402 14:54:54.863" status="PASS" starttime="20180402 14:54:54.861"></status>
+<status endtime="20180402 17:13:17.034" status="PASS" starttime="20180402 17:13:17.033"></status>
 </kw>
-<kw library="ClientLibrary" name="Status Should Be">
-<arguments>
-<arg>SUCCESS</arg>
-</arguments>
-<kw library="BuiltIn" name="Should Be Equal">
-<doc>Fails if the given objects are unequal.</doc>
-<arguments>
-<arg>SUCCESS</arg>
-<arg>SUCCESS</arg>
-<arg>Expected status to be 'SUCCESS' but was 'SUCCESS'.</arg>
-</arguments>
-<status endtime="20180402 14:54:54.865" status="PASS" starttime="20180402 14:54:54.865"></status>
-</kw>
-<status endtime="20180402 14:54:54.865" status="PASS" starttime="20180402 14:54:54.864"></status>
-</kw>
-<status critical="yes" endtime="20180402 14:54:54.866" status="PASS" starttime="20180402 14:54:54.860"></status>
+<status endtime="20180402 17:13:17.034" critical="yes" status="PASS" starttime="20180402 17:13:17.032"></status>
 </test>
 <test id="s1-t9" name="Test 9 Compare start end balance of client">
 <kw name="Step 9 Attemp compare start end balance">
 <kw library="ClientLibrary" name="Compare Start End Balance">
-<msg timestamp="20180402 14:54:54.871" level="FAIL">TypeError: unsupported operand type(s) for -: 'float' and 'NoneType'</msg>
-<status endtime="20180402 14:54:54.871" status="FAIL" starttime="20180402 14:54:54.868"></status>
+<status endtime="20180402 17:13:17.036" status="PASS" starttime="20180402 17:13:17.036"></status>
 </kw>
-<status endtime="20180402 14:54:54.871" status="FAIL" starttime="20180402 14:54:54.867"></status>
+<status endtime="20180402 17:13:17.037" status="PASS" starttime="20180402 17:13:17.035"></status>
 </kw>
-<status critical="yes" endtime="20180402 14:54:54.872" status="FAIL" starttime="20180402 14:54:54.867">TypeError: unsupported operand type(s) for -: 'float' and 'NoneType'</status>
+<status endtime="20180402 17:13:17.037" critical="yes" status="PASS" starttime="20180402 17:13:17.035"></status>
 </test>
-<status endtime="20180402 14:54:54.873" status="FAIL" starttime="20180402 14:53:54.158"></status>
+<status endtime="20180402 17:13:17.038" status="PASS" starttime="20180402 17:12:56.307"></status>
 </suite>
 <statistics>
 <total>
-<stat pass="4" fail="5">Critical Tests</stat>
-<stat pass="4" fail="5">All Tests</stat>
+<stat fail="0" pass="9">Critical Tests</stat>
+<stat fail="0" pass="9">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat id="s1" pass="4" fail="5" name="Test Client">Test Client</stat>
+<stat id="s1" fail="0" pass="9" name="Test Client">Test Client</stat>
 </suite>
 </statistics>
 <errors>
