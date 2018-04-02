@@ -5,7 +5,7 @@ Variables    ../config/variables.py
 
 *** Keywords ***
 Step 1 Connect to db
-    get connect to db
+    connect to db
 Step 2 Get balance of client positive
     get balance positive
 Step 3 Get client services
