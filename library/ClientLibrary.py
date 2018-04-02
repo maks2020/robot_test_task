@@ -108,13 +108,12 @@ class ClientLibrary(DataBase):
             self._cost_service = unused_service['cost']
             return unused_service
 
-    def set_client_service(self, port):
-        self._status = None
-        if self._id_service is not None:
-            url = 'http://localhost:{port}/client/add_service'.format(port=port)
+    def set_client_service(self, url):
+        if self._id_service:
+            url = urljoin(url, 'client/add_service')
             data = {'client_id': self._id_client_positive, 'service_id': self._id_service}
             response = requests.post(url, headers=ClientLibrary.HEADERS, json=data)
-            self._status = str(response.status_code)
+            assert response.status_code == 202
             return response.status_code
 
     def wait_new_service(self, url):
