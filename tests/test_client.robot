@@ -15,7 +15,7 @@ Step 4 Get services
    [Arguments]  ${url}
    get services  ${url}
 Step 5 Get external service
-    get ex services
+    get unused services
 Step 6 Set new service for client
     [Arguments]  ${port}
     set client service  ${port}
