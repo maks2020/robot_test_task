@@ -132,8 +132,8 @@ class ClientLibrary(DataBase):
 
     def get_balance(self):
         query_balance = self.cursor.execute('SELECT BALANCE FROM BALANCES '
-                                             'WHERE CLIENTS_CLIENT_ID=?',
-                                             (self._id_client_positive,))
+                                            'WHERE CLIENTS_CLIENT_ID=?',
+                                            (self._id_client_positive,))
         balance, = query_balance.fetchone()
         assert balance
         self._balance = balance
