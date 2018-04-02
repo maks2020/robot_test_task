@@ -2,7 +2,7 @@ import os
 import random
 import time
 
-import sqlite3 as lite
+import sqlite3
 import requests
 from robot.libraries.BuiltIn import BuiltIn
 
@@ -13,20 +13,20 @@ _DATABASE_PATH = os.path.join(_BASE_DIR, 'web', 'clients.db')
 class DataBase:
     def __init__(self, db_path=_DATABASE_PATH):
         self._db_path = db_path
-        self.conn = None
-        self.cur = None
+        self.connect = None
+        self.cursor = None
 
     def count_db(self, name_tbl):
-        query_count = self.cur.execute('SELECT COUNT(*) FROM {}'.format(name_tbl))
+        query_count = self.cursor.execute('SELECT COUNT(*) FROM {}'.format(name_tbl))
         count,  = query_count.fetchone()
         return count
 
     def add_row(self, name_tbl, *args):
-        self.cur.execute('INSERT INTO {} VALUES(?,?)'.format(name_tbl), *args)
-        self.conn.commit()
+        self.cursor.execute('INSERT INTO {} VALUES(?,?)'.format(name_tbl), *args)
+        self.connect.commit()
 
     def close_db(self):
-        self.conn.close()
+        self.connect.close()
 
     def __del__(self):
         self.close_db()
@@ -47,17 +47,17 @@ class ClientLibrary(DataBase):
         self._end_balance = None
         self._status = None
 
-    def get_connect_to_db(self):
-        self.conn = lite.connect(self._db_path)
-        self.cur = self.conn.cursor()
-        query_balances = self.cur.execute('SELECT * FROM BALANCES')
+    def connect_to_db(self):
+        self.connect = sqlite3.connect(self._db_path)
+        self.cursor = self.connect.cursor()
+        query_balances = self.cursor.execute('SELECT * FROM BALANCES')
         balances = query_balances.fetchall()
         if balances:
             self._status = 'SUCCESS'
 
     def get_balance_positive(self):
         self._status = None
-        query_balances = self.cur.execute('SELECT * FROM BALANCES WHERE BALANCE > 0')
+        query_balances = self.cursor.execute('SELECT * FROM BALANCES WHERE BALANCE > 0')
         client_tpl = query_balances.fetchone()
         if client_tpl:
             self._id_client_positive, self._balance_client_positive = client_tpl
@@ -71,7 +71,7 @@ class ClientLibrary(DataBase):
         self.add_row('BALANCES', balance_tpl)
         self._id_client_positive, self._balance_client_positive = client_tpl
         client_tpl = query_balances.fetchone()
-        query_check_row = self.cur.execute('SELECT BALANCE FROM BALANCES '
+        query_check_row = self.cursor.execute('SELECT BALANCE FROM BALANCES '
                                            'WHERE CLIENTS_CLIENT_ID=?', (client_id_new,))
         check_row, = query_check_row.fetchone()
         if check_row:
@@ -135,7 +135,7 @@ class ClientLibrary(DataBase):
 
     def get_end_balance(self):
         self._status = None
-        query_end_balance = self.cur.execute('SELECT BALANCE FROM BALANCES '
+        query_end_balance = self.cursor.execute('SELECT BALANCE FROM BALANCES '
                                              'WHERE CLIENTS_CLIENT_ID=?',
                                              (self._id_client_positive,))
         end_balance, = query_end_balance.fetchone()
