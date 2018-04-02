@@ -2,6 +2,7 @@ import os
 import random
 import time
 from urllib.parse import urljoin
+from datetime import datetime
 
 import sqlite3
 import requests
@@ -117,18 +118,16 @@ class ClientLibrary(DataBase):
             return response.status_code
 
     def wait_new_service(self, url):
-        self._status = None
-        time_wait = 0
+        start_time = datetime.now()
         while True:
+            delta_time = datetime.now() - start_time
+            if delta_time.seconds >= 60:
+                raise TimeoutError('Exceeded waiting time request...')
             client_services_ = self.get_client_services(url)
             id_services_lst = [item['id'] for item in client_services_['items']]
             if self._id_service in id_services_lst:
                 print('Service id = {} added'.format(self._id_service))
-                self._status = 'SUCCESS'
                 return client_services_
-            if time_wait >= 60:
-                raise TimeoutError('Exceeded waiting time request...')
-            time_wait += 5
             time.sleep(5)
 
     def get_end_balance(self):
