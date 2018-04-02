@@ -6,13 +6,13 @@ import sqlite3 as lite
 import requests
 from robot.libraries.BuiltIn import BuiltIn
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATABASE_PATH = os.path.join(BASE_DIR, 'web', 'clients.db')
+_BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_DATABASE_PATH = os.path.join(_BASE_DIR, 'web', 'clients.db')
 
 
 class DataBase:
-    def __init__(self, db_path=DATABASE_PATH):
-        self.db_path = db_path
+    def __init__(self, db_path=_DATABASE_PATH):
+        self._db_path = db_path
         self.conn = None
         self.cur = None
 
@@ -48,7 +48,7 @@ class ClientLibrary(DataBase):
         self._status = None
 
     def get_connect_to_db(self):
-        self.conn = lite.connect(self.db_path)
+        self.conn = lite.connect(self._db_path)
         self.cur = self.conn.cursor()
         query_balances = self.cur.execute('SELECT * FROM BALANCES')
         balances = query_balances.fetchall()
