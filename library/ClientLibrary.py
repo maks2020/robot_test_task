@@ -91,6 +91,14 @@ class ClientLibrary(DataBase):
         return services_
 
     def get_unused_services(self):
+        try:
+            assert self._client_services
+        except AssertionError:
+            raise ValueError('client services not define')
+        try:
+            assert self._services
+        except AssertionError:
+            raise ValueError('services not define')
         if self._client_services['count'] != self._services['count']:
             diff_services = [item for item in self._services['items']
                              if item not in self._client_services['items']]
