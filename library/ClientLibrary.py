@@ -82,13 +82,12 @@ class ClientLibrary(DataBase):
         assert response.status_code == 200
         return client_services_
 
-    def get_services(self, port):
-        self._status = None
-        url = 'http://localhost:{port}/services'.format(port=port)
-        response = requests.get(url, headers=ClientLibrary.HEADERS)
+    def get_services(self, url):
+        url_services = urljoin(url, 'services')
+        response = requests.get(url_services, headers=ClientLibrary.HEADERS)
         services_ = response.json()
         self._services = services_
-        self._status = str(response.status_code)
+        assert response.status_code == 200
         return services_
 
     def get_ex_services(self):
@@ -156,7 +155,7 @@ if __name__ == '__main__':
     client.connect_to_db()
     print(client.get_balance_positive())
     print(client.get_client_services('http://localhost:5000'))
-    print(client.get_services(5000))
+    print(client.get_services('http://localhost:5000'))
     print(client.get_ex_services())
     print(client.set_client_service(5000))
-    print(client.wait_new_service(5000))
+    print(client.wait_new_service('http://localhost:5000'))
