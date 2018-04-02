@@ -36,15 +36,15 @@ class ClientLibrary(DataBase):
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
 
     def __init__(self):
-        super().__init__()
-        self.id_client_positive = None
-        self.balance_client_positive = None
-        self.client_services = None
-        self.services = None
-        self.id_service = None
-        self.cost_service = None
-        self.end_balance = None
-        self.headers = {'Content-Type': 'application/json'}
+        super(ClientLibrary, self).__init__()
+        self._id_client_positive = None
+        self._balance_client_positive = None
+        self._client_services = None
+        self._services = None
+        self._id_service = None
+        self._cost_service = None
+        self._end_balance = None
+        self._headers = {'Content-Type': 'application/json'}
         self._status = None
 
     def get_connect_to_db(self):
@@ -60,7 +60,7 @@ class ClientLibrary(DataBase):
         query_balances = self.cur.execute('SELECT * FROM BALANCES WHERE BALANCE > 0')
         client_tpl = query_balances.fetchone()
         if client_tpl:
-            self.id_client_positive, self.balance_client_positive = client_tpl
+            self._id_client_positive, self._balance_client_positive = client_tpl
             self._status = 'SUCCESS'
             return client_tpl
         count_clients_db = self.count_db('CLIENTS')
@@ -69,7 +69,7 @@ class ClientLibrary(DataBase):
         self.add_row('CLIENTS', client_tpl)
         balance_tpl = (client_id_new, 3.5)
         self.add_row('BALANCES', balance_tpl)
-        self.id_client_positive, self.balance_client_positive = client_tpl
+        self._id_client_positive, self._balance_client_positive = client_tpl
         client_tpl = query_balances.fetchone()
         query_check_row = self.cur.execute('SELECT BALANCE FROM BALANCES '
                                            'WHERE CLIENTS_CLIENT_ID=?', (client_id_new,))
@@ -80,41 +80,41 @@ class ClientLibrary(DataBase):
 
     def get_client_services(self, port):
         self._status = None
-        data = {'client_id': self.id_client_positive}
+        data = {'client_id': self._id_client_positive}
         url = 'http://localhost:{port}/client/services'.format(port=port)
-        response = requests.post(url, headers=self.headers, json=data)
+        response = requests.post(url, headers=self._headers, json=data)
         client_services_ = response.json()
-        self.client_services = client_services_
+        self._client_services = client_services_
         self._status = str(response.status_code)
         return client_services_
 
     def get_services(self, port):
         self._status = None
         url = 'http://localhost:{port}/services'.format(port=port)
-        response = requests.get(url, headers=self.headers)
+        response = requests.get(url, headers=self._headers)
         services_ = response.json()
-        self.services = services_
+        self._services = services_
         self._status = str(response.status_code)
         return services_
 
     def get_ex_services(self):
         self._status = None
-        if self.client_services['count'] != self.services['count']:
-            diff_services = [item for item in self.services['items']
-                             if item not in self.client_services['items']]
+        if self._client_services['count'] != self._services['count']:
+            diff_services = [item for item in self._services['items']
+                             if item not in self._client_services['items']]
             ex_service = random.choice(diff_services)
             if ex_service:
-                self.id_service = ex_service['id']
-                self.cost_service = ex_service['cost']
+                self._id_service = ex_service['id']
+                self._cost_service = ex_service['cost']
                 self._status = 'SUCCESS'
                 return ex_service
 
     def set_client_service(self, port):
         self._status = None
-        if self.id_service is not None:
+        if self._id_service is not None:
             url = 'http://localhost:{port}/client/add_service'.format(port=port)
-            data = {'client_id': self.id_client_positive, 'service_id': self.id_service}
-            response = requests.post(url, headers=self.headers, json=data)
+            data = {'client_id': self._id_client_positive, 'service_id': self._id_service}
+            response = requests.post(url, headers=self._headers, json=data)
             self._status = str(response.status_code)
             return response.status_code
 
@@ -124,9 +124,8 @@ class ClientLibrary(DataBase):
         while True:
             client_services_ = self.get_client_services(port)
             id_services_lst = [item['id'] for item in client_services_['items']]
-            print(id_services_lst)
-            if self.id_service in id_services_lst:
-                print('Service id = {} added'.format(self.id_service))
+            if self._id_service in id_services_lst:
+                print('Service id = {} added'.format(self._id_service))
                 self._status = 'SUCCESS'
                 return client_services_
             if time_wait >= 60:
@@ -138,16 +137,16 @@ class ClientLibrary(DataBase):
         self._status = None
         query_end_balance = self.cur.execute('SELECT BALANCE FROM BALANCES '
                                              'WHERE CLIENTS_CLIENT_ID=?',
-                                             (self.id_client_positive,))
+                                             (self._id_client_positive,))
         end_balance, = query_end_balance.fetchone()
         if end_balance:
-            self.end_balance = end_balance
+            self._end_balance = end_balance
             self._status = 'SUCCESS'
             return end_balance
 
     def compare_start_end_balance(self):
         self._status = None
-        if self.end_balance == (self.balance_client_positive - self.cost_service):
+        if self._end_balance == (self._balance_client_positive - self._cost_service):
             self._status = 'SUCCESS'
         else:
             self._status = 'UNSUCCESS'
