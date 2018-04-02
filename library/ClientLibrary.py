@@ -18,7 +18,7 @@ class DataBase:
         self.connect = None
         self.cursor = None
 
-    def count_db(self, name_tbl):
+    def count_row(self, name_tbl):
         query_count = self.cursor.execute('SELECT COUNT(*) FROM {}'.format(name_tbl))
         count,  = query_count.fetchone()
         return count
@@ -27,11 +27,8 @@ class DataBase:
         self.cursor.execute('INSERT INTO {} VALUES(?,?)'.format(name_tbl), *args)
         self.connect.commit()
 
-    def close_db(self):
-        self.connect.close()
-
     def __del__(self):
-        self.close_db()
+        self.connect.close()
 
 
 class ClientLibrary(DataBase):
