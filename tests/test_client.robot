@@ -12,8 +12,8 @@ Step 3 Get client services
     [Arguments]  ${url}
     get client services    ${url}
 Step 4 Get services
-   [Arguments]  ${port}
-   get services  ${port}
+   [Arguments]  ${url}
+   get services  ${url}
 Step 5 Get external service
     get ex services
 Step 6 Set new service for client
@@ -42,7 +42,7 @@ Test 3 Get client services
 #    Status should be  200
 
 Test 4 Get services
-    Step 4 Get services  ${PORT}
+    Step 4 Get services  ${URL}
 #    Status should be  200
 
 Test 5 Get external service
