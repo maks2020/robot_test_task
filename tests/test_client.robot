@@ -12,5 +12,5 @@ Test case
     Get unused services
     Set client service     ${URL}
     Wait new service       ${URL}
-    Get balance
+    Get client balance
     Compare start end balance

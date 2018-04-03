@@ -139,7 +139,7 @@ class ClientLibrary(DataBase):
                                    .format(message=message))
             time.sleep(5)
 
-    def get_balance(self):
+    def get_client_balance(self):
         query_balance = self.cursor.execute('SELECT BALANCE FROM BALANCES '
                                             'WHERE CLIENTS_CLIENT_ID=?',
                                             (self._id_client_positive,))
