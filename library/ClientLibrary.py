@@ -3,8 +3,8 @@ import random
 import time
 from urllib.parse import urljoin
 from datetime import datetime
-
 import sqlite3
+
 import requests
 from robot.libraries.BuiltIn import BuiltIn
 
@@ -18,17 +18,17 @@ class DataBase:
         self.connect = None
         self.cursor = None
 
+    def connect_to_db(self):
+        self.connect = sqlite3.connect(self._db_path)
+        self.cursor = self.connect.cursor()
+
     def count_row(self, name_tbl):
         query_count = self.cursor.execute('SELECT COUNT(*) FROM {}'.format(name_tbl))
         count,  = query_count.fetchone()
         return count
 
-    def add_client(self, *args):
-        self.cursor.execute('INSERT INTO CLIENTS VALUES(?,?)', *args)
-        self.connect.commit()
-
-    def add_client_balance(self, *args):
-        self.cursor.execute('INSERT INTO BALANCES VALUES(?,?)', *args)
+    def add_row(self, name_tbl, *args):
+        self.cursor.execute('INSERT INTO {} VALUES(?,?)'.format(name_tbl), *args)
         self.connect.commit()
 
     def __del__(self):
@@ -42,10 +42,6 @@ class ClientLibrary(DataBase):
     def __init__(self):
         super(ClientLibrary, self).__init__()
 
-    def connect_to_db(self):
-        self.connect = sqlite3.connect(self._db_path)
-        self.cursor = self.connect.cursor()
-
     def get_client_with_positive_balance(self):
         client_balance_query = self.cursor.execute('SELECT * FROM BALANCES'
                                                    ' WHERE BALANCE > 0 LIMIT 1')
@@ -53,12 +49,16 @@ class ClientLibrary(DataBase):
         if client_balance:
             return client_balance
         else:
-            count_clients_row = self.count_row('CLIENTS')
-            client_id_new = count_clients_row + 1
-            client_data = (client_id_new, 'Client_{}'.format(client_id_new))
-            self.add_client(client_data)
-            client_balance = (client_id_new, 5.0)
-            self.add_client_balance(client_balance)
+            client_balance = self.add_client()
+        return client_balance
+
+    def add_client(self):
+        count_clients_row = self.count_row('CLIENTS')
+        client_id_new = count_clients_row + 1
+        client_data = (client_id_new, 'Client_{}'.format(client_id_new))
+        self.add_row('CLIENTS', client_data)
+        client_balance = (client_id_new, 5.0)
+        self.add_row('BALANCES', client_balance)
         return client_balance
 
     def get_client_services(self, url, client_balance):
