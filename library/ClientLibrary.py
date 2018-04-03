@@ -58,7 +58,7 @@ class ClientLibrary(DataBase):
         except sqlite3.OperationalError:
             raise sqlite3.OperationalError('not connect database for task')
 
-    def get_client_balance_positive(self):
+    def get_client_with_positive_balance(self):
         self._status = None
         client_balance_query = self.cursor.execute('SELECT * FROM BALANCES'
                                                    ' WHERE BALANCE > 0 LIMIT 1')
