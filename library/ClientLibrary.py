@@ -122,14 +122,21 @@ class ClientLibrary(DataBase):
     def wait_new_service(self, url):
         start_time = datetime.now()
         while True:
-            delta_time = datetime.now() - start_time
-            if delta_time.seconds >= 60:
-                raise TimeoutError('Exceeded waiting time request...')
             client_services_ = self.get_client_services(url)
             id_services_lst = [item['id'] for item in client_services_['items']]
             if self._id_service in id_services_lst:
                 print('Service id = {} added'.format(self._id_service))
                 return client_services_
+            delta_time = datetime.now() - start_time
+            if delta_time.seconds >= 60:
+                if client_services_['count'] == 0:
+                    message = ('The client id {} does not have services. '
+                               'The client possible does not exist in database'
+                               .format(self._id_client_positive))
+                else:
+                    message = 'Something went wrong'
+                raise TimeoutError('Exceeded waiting time request... {message}'
+                                   .format(message=message))
             time.sleep(5)
 
     def get_balance(self):
