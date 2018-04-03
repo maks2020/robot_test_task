@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 3.0.2 (Python 3.5.3 on linux)" generated="20180403 16:50:12.681">
-<suite source="/home/mark/PycharmProjects/ps_test_task/tests/test_client.robot" id="s1" name="Test Client">
-<test id="s1-t1" name="Test case">
-<kw library="ClientLibrary" name="Connect To Db">
-<status starttime="20180403 16:50:12.862" status="PASS" endtime="20180403 16:50:12.874"></status>
+<robot generated="20180403 17:44:17.589" generator="Robot 3.0.2 (Python 3.5.3 on linux)">
+<suite id="s1" name="Test Client" source="/home/mark/PycharmProjects/ps_test_task/tests/test_client.robot">
+<kw name="Connect To Db" type="setup" library="ClientLibrary">
+<status status="PASS" starttime="20180403 17:44:17.754" endtime="20180403 17:44:17.755"></status>
 </kw>
-<kw library="ClientLibrary" name="Get Client With Positive Balance">
+<test id="s1-t1" name="Test case">
+<kw name="Get Client With Positive Balance" library="ClientLibrary">
 <assign>
 <var>${client_balance}</var>
 </assign>
-<msg timestamp="20180403 16:50:12.875" level="INFO">${client_balance} = (3, 3.5)</msg>
-<status starttime="20180403 16:50:12.874" status="PASS" endtime="20180403 16:50:12.875"></status>
+<msg level="INFO" timestamp="20180403 17:44:17.850">${client_balance} = (4, 5.0)</msg>
+<status status="PASS" starttime="20180403 17:44:17.756" endtime="20180403 17:44:17.850"></status>
 </kw>
-<kw library="ClientLibrary" name="Get Client Services">
+<kw name="Get Client Services" library="ClientLibrary">
 <arguments>
 <arg>${URL}</arg>
 <arg>${client_balance}</arg>
@@ -20,20 +20,20 @@
 <assign>
 <var>${client_services}</var>
 </assign>
-<msg timestamp="20180403 16:50:12.950" level="INFO">${client_services} = {'count': 1, 'items': [{'cost': 1.2, 'id': 1, 'name': 'Service #1'}]}</msg>
-<status starttime="20180403 16:50:12.876" status="PASS" endtime="20180403 16:50:12.950"></status>
+<msg level="INFO" timestamp="20180403 17:44:17.864">${client_services} = {'count': 0, 'items': []}</msg>
+<status status="PASS" starttime="20180403 17:44:17.851" endtime="20180403 17:44:17.864"></status>
 </kw>
-<kw library="ClientLibrary" name="Get Services">
+<kw name="Get Services" library="ClientLibrary">
 <arguments>
 <arg>${URL}</arg>
 </arguments>
 <assign>
 <var>${services}</var>
 </assign>
-<msg timestamp="20180403 16:50:12.958" level="INFO">${services} = {'count': 5, 'items': [{'cost': 1.2, 'id': 1, 'name': 'Service #1'}, {'cost': 0.35, 'id': 2, 'name': 'Service #2'}, {'cost': 0.15, 'id': 3, 'name': 'Service #3'}, {'cost': 0.15, 'id': 4, 'name': 'Serv...</msg>
-<status starttime="20180403 16:50:12.950" status="PASS" endtime="20180403 16:50:12.958"></status>
+<msg level="INFO" timestamp="20180403 17:44:17.873">${services} = {'count': 5, 'items': [{'id': 1, 'name': 'Service #1', 'cost': 1.2}, {'id': 2, 'name': 'Service #2', 'cost': 0.35}, {'id': 3, 'name': 'Service #3', 'cost': 0.15}, {'id': 4, 'name': 'Service #4', 'cost...</msg>
+<status status="PASS" starttime="20180403 17:44:17.864" endtime="20180403 17:44:17.873"></status>
 </kw>
-<kw library="ClientLibrary" name="Get Unused Services">
+<kw name="Get Unused Services" library="ClientLibrary">
 <arguments>
 <arg>${client_services}</arg>
 <arg>${services}</arg>
@@ -41,57 +41,39 @@
 <assign>
 <var>${unused_service}</var>
 </assign>
-<msg timestamp="20180403 16:50:12.959" level="INFO">${unused_service} = {'cost': 0.15, 'id': 3, 'name': 'Service #3'}</msg>
-<status starttime="20180403 16:50:12.959" status="PASS" endtime="20180403 16:50:12.959"></status>
+<msg level="INFO" timestamp="20180403 17:44:17.879">${unused_service} = {'id': 5, 'name': 'Service #5', 'cost': 0.05}</msg>
+<status status="PASS" starttime="20180403 17:44:17.879" endtime="20180403 17:44:17.879"></status>
 </kw>
-<kw library="ClientLibrary" name="Set Client Service">
+<kw name="Set Client Service" library="ClientLibrary">
 <arguments>
 <arg>${URL}</arg>
 <arg>${client_balance}</arg>
 <arg>${unused_service}</arg>
 </arguments>
-<status starttime="20180403 16:50:12.960" status="PASS" endtime="20180403 16:50:13.010"></status>
+<status status="PASS" starttime="20180403 17:44:17.880" endtime="20180403 17:44:17.892"></status>
 </kw>
-<kw library="ClientLibrary" name="Wait New Service">
+<kw name="Wait New Service" library="ClientLibrary">
 <arguments>
 <arg>${URL}</arg>
 <arg>${client_balance}</arg>
 <arg>${unused_service}</arg>
 </arguments>
-<status starttime="20180403 16:50:13.010" status="PASS" endtime="20180403 16:50:33.064"></status>
+<msg level="FAIL" timestamp="20180403 17:45:18.043">TimeoutError: Exceeded waiting time request... The client id 4 does not have services. The client possible does not exist in database</msg>
+<status status="FAIL" starttime="20180403 17:44:17.892" endtime="20180403 17:45:18.044"></status>
 </kw>
-<kw library="ClientLibrary" name="Get Client Balance">
-<arguments>
-<arg>${client_balance}</arg>
-</arguments>
-<assign>
-<var>${current_balance}</var>
-</assign>
-<msg timestamp="20180403 16:50:33.065" level="INFO">${current_balance} = 3.5</msg>
-<status starttime="20180403 16:50:33.064" status="PASS" endtime="20180403 16:50:33.065"></status>
-</kw>
-<kw library="ClientLibrary" name="Compare Start End Balance">
-<arguments>
-<arg>${client_balance}</arg>
-<arg>${unused_service}</arg>
-<arg>${current_balance}</arg>
-</arguments>
-<msg timestamp="20180403 16:50:33.083" level="FAIL">Expected status to be '3.35' but was '3.5'.: 3.35 != 3.5</msg>
-<status starttime="20180403 16:50:33.065" status="FAIL" endtime="20180403 16:50:33.083"></status>
-</kw>
-<status critical="yes" starttime="20180403 16:50:12.862" status="FAIL" endtime="20180403 16:50:33.084">Expected status to be '3.35' but was '3.5'.: 3.35 != 3.5</status>
+<status status="FAIL" starttime="20180403 17:44:17.755" critical="yes" endtime="20180403 17:45:18.044">TimeoutError: Exceeded waiting time request... The client id 4 does not have services. The client possible does not exist in database</status>
 </test>
-<status starttime="20180403 16:50:12.683" status="FAIL" endtime="20180403 16:50:33.090"></status>
+<status status="FAIL" starttime="20180403 17:44:17.590" endtime="20180403 17:45:18.045"></status>
 </suite>
 <statistics>
 <total>
-<stat fail="1" pass="0">Critical Tests</stat>
-<stat fail="1" pass="0">All Tests</stat>
+<stat pass="0" fail="1">Critical Tests</stat>
+<stat pass="0" fail="1">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat fail="1" id="s1" name="Test Client" pass="0">Test Client</stat>
+<stat pass="0" fail="1" id="s1" name="Test Client">Test Client</stat>
 </suite>
 </statistics>
 <errors>
