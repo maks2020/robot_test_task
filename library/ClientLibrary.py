@@ -68,7 +68,6 @@ class ClientLibrary(DataBase):
         response = requests.post(url, headers=ClientLibrary.HEADERS, json=data)
         assert response.status_code == 200
         client_services_ = response.json()
-        # self._client_services = client_services_
         return client_services_
 
     def get_services(self, url):
