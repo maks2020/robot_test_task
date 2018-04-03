@@ -5,12 +5,12 @@ Variables    ../config/variables.py
 
 *** Test Cases ***
 Test case
-    Connect to db
-    Get client with positive balance
-    Get client services    ${URL}
-    Get services           ${URL}
-    Get unused services
-    Set client service     ${URL}
-    Wait new service       ${URL}
-    Get client balance
-    Compare start end balance
+                              Connect to db
+    ${client_balance}         Get client with positive balance
+    ${client_services}        Get client services                ${URL}  ${client_balance}
+    ${services}               Get services                       ${URL}
+    ${unused_service}         Get unused services                ${client_services}  ${services}
+                              Set client service                 ${URL}  ${client_balance}  ${unused_service}
+                              Wait new service                   ${URL}  ${client_balance}  ${unused_service}
+    ${current_balance}        Get client balance                 ${client_balance}
+                              Compare start end balance          ${client_balance}  ${unused_service}  ${current_balance}
