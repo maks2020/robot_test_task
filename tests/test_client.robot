@@ -6,7 +6,7 @@ Variables    ../config/variables.py
 *** Test Cases ***
 Test case
     Connect to db
-    Get balance positive
+    Get client balance positive
     Get client services    ${URL}
     Get services           ${URL}
     Get unused services

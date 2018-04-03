@@ -23,8 +23,12 @@ class DataBase:
         count,  = query_count.fetchone()
         return count
 
-    def add_row(self, name_tbl, *args):
-        self.cursor.execute('INSERT INTO {} VALUES(?,?)'.format(name_tbl), *args)
+    def add_client(self, *args):
+        self.cursor.execute('INSERT INTO CLIENTS VALUES(?,?)', *args)
+        self.connect.commit()
+
+    def add_client_balance(self, *args):
+        self.cursor.execute('INSERT INTO BALANCES VALUES(?,?)', *args)
         self.connect.commit()
 
     def __del__(self):
@@ -54,30 +58,31 @@ class ClientLibrary(DataBase):
         except sqlite3.OperationalError:
             raise sqlite3.OperationalError('not connect database for task')
 
-    def get_balance_positive(self):
+    def get_client_balance_positive(self):
         self._status = None
-        client_balance = self.cursor.execute('SELECT * FROM BALANCES WHERE BALANCE > 0 LIMIT 1')
-        balance_data = client_balance.fetchone()
-        if balance_data:
-            self._id_client_positive, self._balance_client_positive = balance_data
-            return balance_data
+        client_balance_query = self.cursor.execute('SELECT * FROM BALANCES'
+                                                   ' WHERE BALANCE > 0 LIMIT 1')
+        client_balance = client_balance_query.fetchone()
+        if client_balance:
+            self._id_client_positive, self._balance_client_positive = client_balance
+            return client_balance
         else:
-            count_clients_db = self.count_db('CLIENTS')
-            client_id_new = count_clients_db + 1
+            count_clients_row = self.count_row('CLIENTS')
+            client_id_new = count_clients_row + 1
             client_data = (client_id_new, 'Client_{}'.format(client_id_new))
-            self.add_row('CLIENTS', client_data)
-            balance_data = (client_id_new, 5.0)
-            self.add_row('BALANCES', balance_data)
-            self._id_client_positive, self._balance_client_positive = balance_data
-        return balance_data
+            self.add_client(client_data)
+            client_balance = (client_id_new, 5.0)
+            self.add_client_balance(client_balance)
+            self._id_client_positive, self._balance_client_positive = client_balance
+        return client_balance
 
     def get_client_services(self, url):
         data = {'client_id': self._id_client_positive}
         url = urljoin(url, 'client/services')
         response = requests.post(url, headers=ClientLibrary.HEADERS, json=data)
+        assert response.status_code == 200
         client_services_ = response.json()
         self._client_services = client_services_
-        assert response.status_code == 200
         return client_services_
 
     def get_services(self, url):
