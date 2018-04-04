@@ -117,19 +117,17 @@ class ClientLibrary(DataBase):
                                    .format(message=message))
             time.sleep(TIME_SLEEP)
 
-    def get_client_balance(self, client_balance):
-        id_client, _ = client_balance
+    def get_client_balances(self, client_balance, unused_service):
+        id_client, start_balance = client_balance
+        cost_service = unused_service['cost']
         query_balance = self.cursor.execute('SELECT BALANCE FROM BALANCES '
                                             'WHERE CLIENTS_CLIENT_ID=?',
                                             (id_client,))
-        balance, = query_balance.fetchone()
-        assert balance
-        return balance
+        current_balance, = query_balance.fetchone()
+        assert current_balance
+        end_balance = start_balance - cost_service
+        return current_balance, end_balance, self.error_messages(current_balance, end_balance)
 
-    def compare_start_end_balance(self, client_balance, unused_service, current_balance):
-        _, start_balance = client_balance
-        cost_service = unused_service['cost']
-        balance_end = start_balance - cost_service
-        BuiltIn().should_be_equal(balance_end, current_balance,
-                                  "Expected status to be '{expected}' but was '{status}'."
-                                  .format(expected=balance_end, status=current_balance))
+    def error_messages(self, current_balance, end_balance):
+        return ("Expected status to be '{expected}' but was '{status}'."
+                .format(expected=end_balance, status=current_balance))
