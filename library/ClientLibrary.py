@@ -6,7 +6,6 @@ from datetime import datetime
 import sqlite3
 
 import requests
-from robot.libraries.BuiltIn import BuiltIn
 
 _BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _DATABASE_PATH = os.path.join(_BASE_DIR, 'sut/web', 'clients.db')
