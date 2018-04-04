@@ -10,6 +10,7 @@ from robot.libraries.BuiltIn import BuiltIn
 
 _BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _DATABASE_PATH = os.path.join(_BASE_DIR, 'sut/web', 'clients.db')
+TIME_SLEEP = 5
 
 
 class DataBase:
@@ -114,7 +115,7 @@ class ClientLibrary(DataBase):
                     message = 'Something went wrong'
                 raise TimeoutError('Exceeded waiting time request... {message}'
                                    .format(message=message))
-            time.sleep(5)
+            time.sleep(TIME_SLEEP)
 
     def get_client_balance(self, client_balance):
         id_client, _ = client_balance
