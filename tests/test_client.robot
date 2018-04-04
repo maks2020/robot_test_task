@@ -12,5 +12,5 @@ Test case
     ${unused_service}       Get unused services               ${client_services}  ${services}
                             Set client service                ${URL}  ${client_balance}  ${unused_service}
                             Wait new service                  ${URL}  ${client_balance}  ${unused_service}  ${WAIT_TIME}
-    @{balanses_and_errmsg}  Get client balances               ${client_balance}  ${unused_service}
-                            Should be equal                   @{balanses_and_errmsg}[0]  @{balanses_and_errmsg}[1]  @{balanses_and_errmsg}[2]  values=False
+    @{balanses}             Get client balances               ${client_balance}  ${unused_service}
+                            Should be equal                   @{balanses}[0]  @{balanses}[1]  Expected balance of client to be @{balanses}[0] but was @{balanses}[1]  values=False
