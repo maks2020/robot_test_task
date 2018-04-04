@@ -40,7 +40,7 @@ class DataBase:
 
 class ClientLibrary(DataBase):
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
-    HEADERS = {'Content-Type': 'application/json'}
+    _HEADERS = {'Content-Type': 'application/json'}
 
     def get_client_with_positive_balance(self, balance_for_new_client):
         """Return id and balance of client with positive balance"""
