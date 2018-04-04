@@ -34,7 +34,7 @@ class DataBase:
         self.cursor.execute('INSERT INTO {} VALUES(?,?)'.format(name_tbl), *args)
         self.connect.commit()
 
-    def __del__(self):
+    def close_db(self):
         self.connect.close()
 
 
@@ -68,7 +68,7 @@ class ClientLibrary(DataBase):
         id_client, _ = client_balance
         data = {'client_id': id_client}
         url = urljoin(url, 'client/services')
-        response = requests.post(url, headers=ClientLibrary.HEADERS, json=data)
+        response = requests.post(url, headers=ClientLibrary._HEADERS, json=data)
         assert response.status_code == 200
         client_services_ = response.json()
         return client_services_
@@ -76,7 +76,7 @@ class ClientLibrary(DataBase):
     def get_services(self, url):
         """Return the dictionary of available services"""
         url_services = urljoin(url, 'services')
-        response = requests.get(url_services, headers=ClientLibrary.HEADERS)
+        response = requests.get(url_services, headers=ClientLibrary._HEADERS)
         services_ = response.json()
         assert response.status_code == 200
         return services_
@@ -97,7 +97,7 @@ class ClientLibrary(DataBase):
         if id_service:
             url = urljoin(url, 'client/add_service')
             data = {'client_id': id_client, 'service_id': id_service}
-            response = requests.post(url, headers=ClientLibrary.HEADERS, json=data)
+            response = requests.post(url, headers=ClientLibrary._HEADERS, json=data)
             assert response.status_code == 202
             return response.status_code
 
