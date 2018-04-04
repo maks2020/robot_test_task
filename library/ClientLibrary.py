@@ -42,7 +42,7 @@ class ClientLibrary(DataBase):
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
     HEADERS = {'Content-Type': 'application/json'}
 
-    def get_client_with_positive_balance(self):
+    def get_client_with_positive_balance(self, balance_for_new_client):
         """Return id and balance of client with positive balance"""
         client_balance_query = self.cursor.execute('SELECT * FROM BALANCES'
                                                    ' WHERE BALANCE > 0 LIMIT 1')
@@ -50,16 +50,16 @@ class ClientLibrary(DataBase):
         if client_balance:
             return client_balance
         else:
-            client_balance = self.add_client()
+            client_balance = self.add_client(balance_for_new_client)
         return client_balance
 
-    def add_client(self):
+    def add_client(self, balance_for_new_client):
         """Add new client in the database and return client_id, balance"""
         count_clients_row = self.count_row('CLIENTS')
         client_id_new = count_clients_row + 1
         client_data = (client_id_new, 'Client_{}'.format(client_id_new))
         self.add_row('CLIENTS', client_data)
-        client_balance = (client_id_new, 5.0)
+        client_balance = (client_id_new, balance_for_new_client)
         self.add_row('BALANCES', client_balance)
         return client_balance
 
