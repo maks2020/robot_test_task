@@ -1,7 +1,8 @@
 *** Settings ***
 Library      ../library/ClientLibrary.py
 Variables    ../config/variables.py
-Suite Setup  Connect to db
+Test Setup     Connect to db
+Test Teardown  Close db
 
 
 *** Test Cases ***
