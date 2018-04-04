@@ -19,15 +19,18 @@ class DataBase:
         self.cursor = None
 
     def connect_to_db(self):
+        """Connect to database"""
         self.connect = sqlite3.connect(self._db_path)
         self.cursor = self.connect.cursor()
 
     def count_row(self, name_tbl):
+        """Return count row for table of database"""
         query_count = self.cursor.execute('SELECT COUNT(*) FROM {}'.format(name_tbl))
         count,  = query_count.fetchone()
         return count
 
     def add_row(self, name_tbl, *args):
+        """Add row into table of database"""
         self.cursor.execute('INSERT INTO {} VALUES(?,?)'.format(name_tbl), *args)
         self.connect.commit()
 
@@ -40,6 +43,7 @@ class ClientLibrary(DataBase):
     HEADERS = {'Content-Type': 'application/json'}
 
     def get_client_with_positive_balance(self):
+        """Return id and balance of client with positive balance"""
         client_balance_query = self.cursor.execute('SELECT * FROM BALANCES'
                                                    ' WHERE BALANCE > 0 LIMIT 1')
         client_balance = client_balance_query.fetchone()
@@ -50,6 +54,7 @@ class ClientLibrary(DataBase):
         return client_balance
 
     def add_client(self):
+        """Add new client in the database and return client_id, balance"""
         count_clients_row = self.count_row('CLIENTS')
         client_id_new = count_clients_row + 1
         client_data = (client_id_new, 'Client_{}'.format(client_id_new))
@@ -59,6 +64,7 @@ class ClientLibrary(DataBase):
         return client_balance
 
     def get_client_services(self, url, client_balance):
+        """Return the dictionary services of client"""
         id_client, _ = client_balance
         data = {'client_id': id_client}
         url = urljoin(url, 'client/services')
@@ -68,6 +74,7 @@ class ClientLibrary(DataBase):
         return client_services_
 
     def get_services(self, url):
+        """Return the dictionary of available services"""
         url_services = urljoin(url, 'services')
         response = requests.get(url_services, headers=ClientLibrary.HEADERS)
         services_ = response.json()
@@ -75,6 +82,7 @@ class ClientLibrary(DataBase):
         return services_
 
     def get_unused_services(self, client_services, services):
+        """Return a random unused service"""
         if client_services['count'] != services['count']:
             diff_services = [item for item in services['items']
                              if item not in client_services['items']]
@@ -83,6 +91,7 @@ class ClientLibrary(DataBase):
             return unused_service
 
     def set_client_service(self, url, client_balance, unused_service):
+        """Set a service for client"""
         id_client, _ = client_balance
         id_service = unused_service['id']
         if id_service:
@@ -93,6 +102,7 @@ class ClientLibrary(DataBase):
             return response.status_code
 
     def wait_new_service(self, url, client_balance, unused_service, wait_time):
+        """Waiting for a new service to appear in the client list"""
         id_client, _ = client_balance
         id_service = unused_service['id']
         start_time = datetime.now()
@@ -114,6 +124,7 @@ class ClientLibrary(DataBase):
             time.sleep(TIME_SLEEP)
 
     def get_client_balances(self, client_balance, unused_service):
+        """Return current and estimated balances of client"""
         id_client, start_balance = client_balance
         cost_service = unused_service['cost']
         query_balance = self.cursor.execute('SELECT BALANCE FROM BALANCES '
