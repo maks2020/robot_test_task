@@ -95,7 +95,7 @@ class ClientLibrary(DataBase):
             assert response.status_code == 202
             return response.status_code
 
-    def wait_new_service(self, url, client_balance, unused_service):
+    def wait_new_service(self, url, client_balance, unused_service, wait_time):
         id_client, _ = client_balance
         id_service = unused_service['id']
         start_time = datetime.now()
@@ -105,7 +105,7 @@ class ClientLibrary(DataBase):
             if id_service in id_services_lst:
                 return client_services_
             delta_time = datetime.now() - start_time
-            if delta_time.seconds >= 60:
+            if delta_time.seconds >= wait_time:
                 if client_services_['count'] == 0:
                     message = ('The client id {} does not have services. '
                                'The client possible does not exist in database'

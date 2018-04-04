@@ -11,6 +11,6 @@ Test case
     ${services}               Get services                       ${URL}
     ${unused_service}         Get unused services                ${client_services}  ${services}
                               Set client service                 ${URL}  ${client_balance}  ${unused_service}
-                              Wait new service                   ${URL}  ${client_balance}  ${unused_service}
+                              Wait new service                   ${URL}  ${client_balance}  ${unused_service}  ${WAIT_TIME}
     ${current_balance}        Get client balance                 ${client_balance}
                               Compare start end balance          ${client_balance}  ${unused_service}  ${current_balance}
