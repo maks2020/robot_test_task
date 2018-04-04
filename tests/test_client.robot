@@ -6,7 +6,7 @@ Suite Setup  Connect to db
 
 *** Test Cases ***
 Test case
-    ${client_balance}       Get client with positive balance
+    ${client_balance}       Get client with positive balance  ${BALANCE_FOR_NEW_CLIENT}
     ${client_services}      Get client services               ${URL}  ${client_balance}
     ${services}             Get services                      ${URL}
     ${unused_service}       Get unused services               ${client_services}  ${services}
