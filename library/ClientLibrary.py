@@ -126,8 +126,8 @@ class ClientLibrary(DataBase):
         current_balance, = query_balance.fetchone()
         assert current_balance
         end_balance = start_balance - cost_service
-        return current_balance, end_balance, self.error_messages(current_balance, end_balance)
+        return current_balance, end_balance, self.error_message(current_balance, end_balance)
 
-    def error_messages(self, current_balance, end_balance):
-        return ("Expected status to be '{expected}' but was '{status}'."
-                .format(expected=end_balance, status=current_balance))
+    def error_message(self, current_balance, end_balance):
+        return ("Expected balance of client to be '{expected}' but was '{current}'."
+                .format(expected=end_balance, current=current_balance))
