@@ -40,9 +40,6 @@ class ClientLibrary(DataBase):
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
     HEADERS = {'Content-Type': 'application/json'}
 
-    def __init__(self):
-        super(ClientLibrary, self).__init__()
-
     def get_client_with_positive_balance(self):
         client_balance_query = self.cursor.execute('SELECT * FROM BALANCES'
                                                    ' WHERE BALANCE > 0 LIMIT 1')
