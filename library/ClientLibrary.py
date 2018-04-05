@@ -19,17 +19,6 @@ class DataBase:
         self.connect = sqlite3.connect(db_path)
         self.cursor = self.connect.cursor()
 
-    def count_row(self, name_tbl):
-        """Return count row for table of database"""
-        query_count = self.cursor.execute('SELECT COUNT(*) FROM {}'.format(name_tbl))
-        count,  = query_count.fetchone()
-        return count
-
-    def add_row(self, name_tbl, *args):
-        """Add row into table of database"""
-        self.cursor.execute('INSERT INTO {} VALUES(?,?)'.format(name_tbl), *args)
-        self.connect.commit()
-
     def close_db(self):
         """Close connection with database"""
         self.connect.close()
@@ -51,14 +40,15 @@ class ClientLibrary(DataBase):
         return client_balance
 
     def add_client(self, balance_for_new_client):
-        """Add new client in the database and return client_id, balance"""
-        count_clients_row = self.count_row('CLIENTS')
-        client_id_new = count_clients_row + 1
-        client_data = (client_id_new, 'Client_{}'.format(client_id_new))
-        self.add_row('CLIENTS', client_data)
-        client_balance = (client_id_new, balance_for_new_client)
-        self.add_row('BALANCES', client_balance)
-        return client_balance
+        """Add client into database and return client_id, balance"""
+        self.cursor.execute('INSERT INTO CLIENTS (CLIENT_NAME) VALUES(?)',
+                            ('Ringo',))
+        id_client = self.cursor.lastrowid
+        client_with_balance = (id_client, balance_for_new_client)
+        self.cursor.execute('INSERT INTO BALANCES VALUES(?,?)',
+                            client_with_balance)
+        self.connect.commit()
+        return client_with_balance
 
     def get_client_services(self, url, client_balance):
         """Return the dictionary services of client"""
