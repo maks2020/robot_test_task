@@ -1,4 +1,3 @@
-import os
 import random
 import time
 from urllib.parse import urljoin
@@ -7,20 +6,17 @@ import sqlite3
 
 import requests
 
-_BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-_DATABASE_PATH = os.path.join(_BASE_DIR, 'sut/web', 'clients.db')
-TIME_SLEEP = 5
+_TIME_SLEEP = 5
 
 
 class DataBase:
-    def __init__(self, db_path=_DATABASE_PATH):
-        self._db_path = db_path
+    def __init__(self):
         self.connect = None
         self.cursor = None
 
-    def connect_to_db(self):
+    def connect_to_db(self, db_path):
         """Connect to database"""
-        self.connect = sqlite3.connect(self._db_path)
+        self.connect = sqlite3.connect(db_path)
         self.cursor = self.connect.cursor()
 
     def count_row(self, name_tbl):
@@ -122,7 +118,7 @@ class ClientLibrary(DataBase):
                     message = 'Something went wrong'
                 raise TimeoutError('Exceeded waiting time request... {message}'
                                    .format(message=message))
-            time.sleep(TIME_SLEEP)
+            time.sleep(_TIME_SLEEP)
 
     def get_client_balances(self, client_balance, unused_service):
         """Return current and estimated balances of client"""
