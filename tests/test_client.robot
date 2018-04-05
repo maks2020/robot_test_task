@@ -1,5 +1,4 @@
 *** Settings ***
-Variables    ../config/variables.py
 Library      ../library/ClientLibrary.py  ${HOST}  ${PORT}
 Test Setup     Connect to db  ${DATABASE_PATH}
 Test Teardown  Close db
