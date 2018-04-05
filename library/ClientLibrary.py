@@ -85,8 +85,8 @@ class ClientLibrary(DataBaseLibrary):
             if item not in client_services['items']:
                 return item['id'], item['cost']
 
-    def set_client_service(self, client_id, service_id):
-        """Set a service for client"""
+    def add_new_service_to_client(self, client_id, service_id):
+        """Adds a new service to the client"""
         assert service_id
         url = self.url_join('client/add_service')
         data = {'client_id': client_id, 'service_id': service_id}
@@ -95,7 +95,8 @@ class ClientLibrary(DataBaseLibrary):
         assert response.status_code == 202
         return response.status_code
 
-    def wait_new_service(self, client_id, service_id, wait_time):
+    def wait_appear_new_service_for_client(self, client_id, service_id,
+                                           wait_time):
         """Waiting for a new service to appear in the client list"""
         end_time = dt.datetime.now() + dt.timedelta(seconds=wait_time)
         client_services_ = {}
