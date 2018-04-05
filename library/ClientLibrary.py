@@ -12,19 +12,19 @@ _TIME_SLEEP = 5
 class DataBaseLibrary:
     """The library provides work with the database"""
     def __init__(self):
-        self.connect = None
+        self._connect = None
         self.cursor = None
 
     def connect_to_db(self, db_path):
         """Connect to database"""
-        self.connect = sqlite3.connect(db_path)
-        self.cursor = self.connect.cursor()
+        self._connect = sqlite3.connect(db_path)
+        self.cursor = self._connect.cursor()
 
     def close_db(self):
         """Close connection with database"""
-        self.connect.close()
+        self._connect.close()
         self.cursor = None
-        self.connect = None
+        self._connect = None
 
 
 class ClientLibrary(DataBaseLibrary):
@@ -50,7 +50,7 @@ class ClientLibrary(DataBaseLibrary):
         client_with_balance = (id_client, balance_for_new_client)
         self.cursor.execute('INSERT INTO BALANCES VALUES(?,?)',
                             client_with_balance)
-        self.connect.commit()
+        self._connect.commit()
         return client_with_balance
 
     def get_client_services(self, url, client_balance):
