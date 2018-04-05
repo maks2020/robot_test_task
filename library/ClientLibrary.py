@@ -35,6 +35,7 @@ class DataBase:
         self.connect.commit()
 
     def close_db(self):
+        """Close connection with database"""
         self.connect.close()
 
 
