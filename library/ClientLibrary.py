@@ -61,9 +61,8 @@ class ClientLibrary(DataBaseLibrary):
         self._connect.commit()
         return client_with_balance
 
-    def get_client_services(self, client_balance):
+    def get_client_services(self, client_id):
         """Return the dictionary services of client"""
-        client_id, _ = client_balance
         data = {'client_id': client_id}
         url = self.url_join('client/services')
         response = requests.post(url, headers=ClientLibrary._HEADERS, json=data)
@@ -86,9 +85,8 @@ class ClientLibrary(DataBaseLibrary):
             if item not in client_services['items']:
                 return item['id'], item['cost']
 
-    def set_client_service(self, client_balance, service_id):
+    def set_client_service(self, client_id, service_id):
         """Set a service for client"""
-        client_id, _ = client_balance
         assert service_id
         url = self.url_join('client/add_service')
         data = {'client_id': client_id, 'service_id': service_id}
@@ -97,13 +95,12 @@ class ClientLibrary(DataBaseLibrary):
         assert response.status_code == 202
         return response.status_code
 
-    def wait_new_service(self, client_balance, service_id, wait_time):
+    def wait_new_service(self, client_id, service_id, wait_time):
         """Waiting for a new service to appear in the client list"""
-        id_client, _ = client_balance
         end_time = dt.datetime.now() + dt.timedelta(seconds=wait_time)
         client_services_ = {}
         while dt.datetime.now() <= end_time:
-            client_services_ = self.get_client_services(client_balance)
+            client_services_ = self.get_client_services(client_id)
             service_ids = [item['id'] for item in client_services_['items']]
             try:
                 assert service_id in service_ids
@@ -114,19 +111,30 @@ class ClientLibrary(DataBaseLibrary):
             if client_services_['count'] == 0:
                 message = ('The client id {} does not have services. '
                            'The client possible does not exist in database'
-                           .format(id_client))
+                           .format(client_id))
             else:
                 message = 'Something went wrong'
             raise TimeoutError('Exceeded waiting time request... {message}'
                                .format(message=message))
 
-    def get_client_balance(self, client_balance):
+    def get_client_balance(self, client_id):
         """Return current balance of client"""
-        id_client, start_balance = client_balance
         query_balance = self.cursor.execute('SELECT BALANCE FROM BALANCES '
                                             'WHERE CLIENTS_CLIENT_ID=?',
-                                            (id_client,))
+                                            (client_id,))
         balance, = query_balance.fetchone()
         assert balance
         return balance
 
+    @staticmethod
+    def check_balance_reduced_to_service_cost(start_balance,
+                                              current_balance, service_cost):
+        """Check current balance of client and calculated balance"""
+        expected_balance = start_balance - service_cost
+        try:
+            assert current_balance == expected_balance
+        except AssertionError:
+            raise AssertionError('Expected balance of client to be {expected}'
+                                 ' but was {current}'
+                                 .format(expected=expected_balance,
+                                         current=current_balance))
