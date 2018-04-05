@@ -65,7 +65,7 @@ class ClientLibrary(DataBaseLibrary):
         """Return the dictionary services of client"""
         data = {'client_id': client_id}
         url = self.url_join('client/services')
-        response = requests.post(url, headers=ClientLibrary._HEADERS, json=data)
+        response = requests.post(url, headers=_HEADERS, json=data)
         assert response.status_code == 200
         client_services_ = response.json()
         return client_services_
@@ -73,7 +73,7 @@ class ClientLibrary(DataBaseLibrary):
     def get_services(self):
         """Return the dictionary of available services"""
         url = self.url_join('services')
-        response = requests.get(url, headers=ClientLibrary._HEADERS)
+        response = requests.get(url, headers=_HEADERS)
         services_ = response.json()
         assert response.status_code == 200
         return services_
@@ -90,7 +90,7 @@ class ClientLibrary(DataBaseLibrary):
         assert service_id
         url = self.url_join('client/add_service')
         data = {'client_id': client_id, 'service_id': service_id}
-        response = requests.post(url, headers=ClientLibrary._HEADERS,
+        response = requests.post(url, headers=_HEADERS,
                                  json=data)
         assert response.status_code == 202
         return response.status_code
