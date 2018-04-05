@@ -84,12 +84,11 @@ class ClientLibrary(DataBaseLibrary):
         assert services['items']
         for item in services['items']:
             if item not in client_services['items']:
-                return item
+                return item['id'], item['cost']
 
-    def set_client_service(self, client_balance, unused_service):
+    def set_client_service(self, client_balance, service_id):
         """Set a service for client"""
         client_id, _ = client_balance
-        service_id = unused_service['id']
         assert service_id
         url = self.url_join('client/add_service')
         data = {'client_id': client_id, 'service_id': service_id}
@@ -98,17 +97,16 @@ class ClientLibrary(DataBaseLibrary):
         assert response.status_code == 202
         return response.status_code
 
-    def wait_new_service(self, client_balance, unused_service, wait_time):
+    def wait_new_service(self, client_balance, service_id, wait_time):
         """Waiting for a new service to appear in the client list"""
         id_client, _ = client_balance
-        id_service = unused_service['id']
         end_time = dt.datetime.now() + dt.timedelta(seconds=wait_time)
         client_services_ = {}
         while dt.datetime.now() <= end_time:
             client_services_ = self.get_client_services(client_balance)
-            id_services_lst = [item['id'] for item in client_services_['items']]
+            service_ids = [item['id'] for item in client_services_['items']]
             try:
-                assert id_service in id_services_lst
+                assert service_id in service_ids
                 return client_services_
             except AssertionError:
                 time.sleep(_TIME_SLEEP)
