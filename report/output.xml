@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 3.0.2 (Python 3.5.3 on linux)" generated="20180405 23:52:27.897">
-<suite source="/home/mark/PycharmProjects/ps_test_task/tests" id="s1" name="Tests">
-<suite source="/home/mark/PycharmProjects/ps_test_task/tests/test_client.robot" id="s1-s1" name="Test Client">
+<robot generated="20180406 00:18:23.225" generator="Robot 3.0.2 (Python 3.5.3 on linux)">
+<suite id="s1" name="Tests" source="/home/mark/PycharmProjects/ps_test_task/tests">
+<suite id="s1-s1" name="Test Client" source="/home/mark/PycharmProjects/ps_test_task/tests/test_client.robot">
 <test id="s1-s1-t1" name="Test case">
-<kw type="setup" library="ClientLibrary" name="Connect To Db">
+<kw name="Connect To Db" library="ClientLibrary" type="setup">
 <doc>Connect to database</doc>
 <arguments>
 <arg>${DATABASE_PATH}</arg>
 </arguments>
-<status starttime="20180405 23:52:28.084" endtime="20180405 23:52:28.085" status="PASS"></status>
+<status status="PASS" starttime="20180406 00:18:23.870" endtime="20180406 00:18:23.901"></status>
 </kw>
-<kw library="ClientLibrary" name="Take Add Client With Positive Balance">
+<kw name="Take Add Client With Positive Balance" library="ClientLibrary">
 <doc>Return id and balance of client with positive balance or</doc>
 <arguments>
 <arg>${BALANCE_FOR_NEW_CLIENT}</arg>
@@ -18,10 +18,10 @@
 <assign>
 <var>${client_balance}</var>
 </assign>
-<msg timestamp="20180405 23:52:28.087" level="INFO">${client_balance} = (3, 3.5)</msg>
-<status starttime="20180405 23:52:28.085" endtime="20180405 23:52:28.087" status="PASS"></status>
+<msg level="INFO" timestamp="20180406 00:18:23.922">${client_balance} = (3, 3.5)</msg>
+<status status="PASS" starttime="20180406 00:18:23.902" endtime="20180406 00:18:23.922"></status>
 </kw>
-<kw library="ClientLibrary" name="Get Client Services">
+<kw name="Get Client Services" library="ClientLibrary">
 <doc>Return the dictionary services of client</doc>
 <arguments>
 <arg>${client_balance}</arg>
@@ -29,89 +29,79 @@
 <assign>
 <var>${client_services}</var>
 </assign>
-<msg timestamp="20180405 23:52:28.100" level="INFO">${client_services} = {'items': [{'id': 1, 'cost': 1.2, 'name': 'Service #1'}, {'id': 2, 'cost': 0.35, 'name': 'Service #2'}], 'count': 2}</msg>
-<status starttime="20180405 23:52:28.087" endtime="20180405 23:52:28.100" status="PASS"></status>
+<msg level="INFO" timestamp="20180406 00:18:24.105">${client_services} = {'count': 3, 'items': [{'id': 1, 'name': 'Service #1', 'cost': 1.2}, {'id': 2, 'name': 'Service #2', 'cost': 0.35}, {'id': 3, 'name': 'Service #3', 'cost': 0.15}]}</msg>
+<status status="PASS" starttime="20180406 00:18:23.922" endtime="20180406 00:18:24.105"></status>
 </kw>
-<kw library="ClientLibrary" name="Get Services">
+<kw name="Get Services" library="ClientLibrary">
 <doc>Return the dictionary of available services</doc>
 <assign>
 <var>${services}</var>
 </assign>
-<msg timestamp="20180405 23:52:28.108" level="INFO">${services} = {'items': [{'id': 1, 'cost': 1.2, 'name': 'Service #1'}, {'id': 2, 'cost': 0.35, 'name': 'Service #2'}, {'id': 3, 'cost': 0.15, 'name': 'Service #3'}, {'id': 4, 'cost': 0.15, 'name': 'Service #4'}, {'...</msg>
-<status starttime="20180405 23:52:28.101" endtime="20180405 23:52:28.109" status="PASS"></status>
+<msg level="INFO" timestamp="20180406 00:18:24.113">${services} = {'count': 5, 'items': [{'id': 1, 'name': 'Service #1', 'cost': 1.2}, {'id': 2, 'name': 'Service #2', 'cost': 0.35}, {'id': 3, 'name': 'Service #3', 'cost': 0.15}, {'id': 4, 'name': 'Service #4', 'cost...</msg>
+<status status="PASS" starttime="20180406 00:18:24.105" endtime="20180406 00:18:24.114"></status>
 </kw>
-<kw library="ClientLibrary" name="Get Unused Service">
+<kw name="Get Unused Service" library="ClientLibrary">
 <doc>Return a unused service</doc>
 <arguments>
 <arg>${client_services}</arg>
 <arg>${services}</arg>
 </arguments>
 <assign>
-<var>${unused_service}</var>
+<var>${service_id}</var>
+<var>${service_cost}</var>
 </assign>
-<msg timestamp="20180405 23:52:28.110" level="INFO">${unused_service} = {'id': 3, 'cost': 0.15, 'name': 'Service #3'}</msg>
-<status starttime="20180405 23:52:28.109" endtime="20180405 23:52:28.110" status="PASS"></status>
+<msg level="INFO" timestamp="20180406 00:18:24.115">${service_id} = 4</msg>
+<msg level="INFO" timestamp="20180406 00:18:24.115">${service_cost} = 0.15</msg>
+<status status="PASS" starttime="20180406 00:18:24.114" endtime="20180406 00:18:24.115"></status>
 </kw>
-<kw library="ClientLibrary" name="Set Client Service">
+<kw name="Set Client Service" library="ClientLibrary">
 <doc>Set a service for client</doc>
 <arguments>
 <arg>${client_balance}</arg>
-<arg>${unused_service}</arg>
+<arg>${service_id}</arg>
 </arguments>
-<status starttime="20180405 23:52:28.110" endtime="20180405 23:52:28.130" status="PASS"></status>
+<status status="PASS" starttime="20180406 00:18:24.115" endtime="20180406 00:18:24.127"></status>
 </kw>
-<kw library="ClientLibrary" name="Wait New Service">
+<kw name="Wait New Service" library="ClientLibrary">
 <doc>Waiting for a new service to appear in the client list</doc>
 <arguments>
 <arg>${client_balance}</arg>
-<arg>${unused_service}</arg>
+<arg>${service_id}</arg>
 <arg>${WAIT_TIME}</arg>
 </arguments>
-<status starttime="20180405 23:52:28.131" endtime="20180405 23:52:33.154" status="PASS"></status>
+<status status="PASS" starttime="20180406 00:18:24.128" endtime="20180406 00:18:44.182"></status>
 </kw>
-<kw library="ClientLibrary" name="Get Client Balances">
-<doc>Return current and estimated balances of client</doc>
+<kw name="Get Client Balance" library="ClientLibrary">
+<doc>Return current balance of client</doc>
 <arguments>
 <arg>${client_balance}</arg>
-<arg>${unused_service}</arg>
 </arguments>
 <assign>
-<var>@{balanses}</var>
+<var>${current_balance}</var>
 </assign>
-<msg timestamp="20180405 23:52:33.156" level="INFO">@{balanses} = [ 3.5 | 3.35 ]</msg>
-<status starttime="20180405 23:52:33.155" endtime="20180405 23:52:33.156" status="PASS"></status>
+<msg level="INFO" timestamp="20180406 00:18:44.183">${current_balance} = 3.5</msg>
+<status status="PASS" starttime="20180406 00:18:44.183" endtime="20180406 00:18:44.184"></status>
 </kw>
-<kw library="BuiltIn" name="Should Be Equal">
-<doc>Fails if the given objects are unequal.</doc>
-<arguments>
-<arg>@{balanses}[0]</arg>
-<arg>@{balanses}[1]</arg>
-<arg>Expected balance of client to be @{balanses}[0] but was @{balanses}[1]</arg>
-<arg>values=False</arg>
-</arguments>
-<msg timestamp="20180405 23:52:33.158" level="FAIL">Expected balance of client to be 3.5 but was 3.35</msg>
-<status starttime="20180405 23:52:33.156" endtime="20180405 23:52:33.158" status="FAIL"></status>
-</kw>
-<kw type="teardown" library="ClientLibrary" name="Close Db">
+<kw name="Close Db" library="ClientLibrary" type="teardown">
 <doc>Close connection with database</doc>
-<status starttime="20180405 23:52:33.158" endtime="20180405 23:52:33.159" status="PASS"></status>
+<status status="PASS" starttime="20180406 00:18:44.184" endtime="20180406 00:18:44.185"></status>
 </kw>
-<status critical="yes" starttime="20180405 23:52:28.083" endtime="20180405 23:52:33.159" status="FAIL">Expected balance of client to be 3.5 but was 3.35</status>
+<status critical="yes" status="PASS" starttime="20180406 00:18:23.869" endtime="20180406 00:18:44.185"></status>
 </test>
-<status starttime="20180405 23:52:27.953" endtime="20180405 23:52:33.160" status="FAIL"></status>
+<status status="PASS" starttime="20180406 00:18:23.291" endtime="20180406 00:18:44.186"></status>
 </suite>
-<status starttime="20180405 23:52:27.899" endtime="20180405 23:52:33.163" status="FAIL"></status>
+<status status="PASS" starttime="20180406 00:18:23.227" endtime="20180406 00:18:44.188"></status>
 </suite>
 <statistics>
 <total>
-<stat pass="0" fail="1">Critical Tests</stat>
-<stat pass="0" fail="1">All Tests</stat>
+<stat pass="1" fail="0">Critical Tests</stat>
+<stat pass="1" fail="0">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat pass="0" fail="1" id="s1" name="Tests">Tests</stat>
-<stat pass="0" fail="1" id="s1-s1" name="Test Client">Tests.Test Client</stat>
+<stat id="s1" name="Tests" pass="1" fail="0">Tests</stat>
+<stat id="s1-s1" name="Test Client" pass="1" fail="0">Tests.Test Client</stat>
 </suite>
 </statistics>
 <errors>
