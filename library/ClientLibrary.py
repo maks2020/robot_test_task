@@ -31,16 +31,15 @@ class ClientLibrary(DataBaseLibrary):
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
     _HEADERS = {'Content-Type': 'application/json'}
 
-    def get_client_with_positive_balance(self, balance_for_new_client):
-        """Return id and balance of client with positive balance"""
+    def take_add_client_with_positive_balance(self, balance_for_new_client):
+        """Return id and balance of client with positive balance or
+        create new client if not exist"""
         client_balance_query = self.cursor.execute('SELECT * FROM BALANCES'
                                                    ' WHERE BALANCE > 0 LIMIT 1')
-        client_balance = client_balance_query.fetchone()
-        if client_balance:
-            return client_balance
-        else:
-            client_balance = self.add_client(balance_for_new_client)
-        return client_balance
+        client_with_balance = client_balance_query.fetchone()
+        if not client_with_balance:
+            client_with_balance = self.add_client(balance_for_new_client)
+        return client_with_balance
 
     def add_client(self, balance_for_new_client):
         """Add client into database and return client_id, balance"""
