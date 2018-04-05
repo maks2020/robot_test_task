@@ -1,7 +1,7 @@
 *** Settings ***
 Library      ../library/ClientLibrary.py
 Variables    ../config/variables.py
-Test Setup     Connect to db
+Test Setup     Connect to db  ${DATABASE_PATH}
 Test Teardown  Close db
 
 
