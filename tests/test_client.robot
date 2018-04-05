@@ -13,5 +13,5 @@ Test case
     ${unused_service}       Get unused service                      ${client_services}  ${services}
                             Set client service                       ${client_balance}  ${unused_service}
                             Wait new service                         ${client_balance}  ${unused_service}  ${WAIT_TIME}
-    ${current_balance}      Get client balances                      ${client_balance}  ${unused_service}
+    ${current_balance}      Get client balance                      ${client_balance}
                             Should be equal                          @{balanses}[0]  @{balanses}[1]  Expected balance of client to be @{balanses}[0] but was @{balanses}[1]  values=False
