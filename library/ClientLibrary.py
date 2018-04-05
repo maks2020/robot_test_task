@@ -31,6 +31,15 @@ class ClientLibrary(DataBaseLibrary):
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
     _HEADERS = {'Content-Type': 'application/json'}
 
+    def __init__(self, host, port):
+        super(ClientLibrary, self).__init__()
+        self.host = host
+        self.port = port
+
+    def url_join(self, path):
+        return urljoin('{host}:{port}'
+                       .format(host=self.host, port=self.port), path)
+
     def take_add_client_with_positive_balance(self, balance_for_new_client):
         """Return id and balance of client with positive balance or
         create new client if not exist"""
@@ -52,20 +61,20 @@ class ClientLibrary(DataBaseLibrary):
         self._connect.commit()
         return client_with_balance
 
-    def get_client_services(self, url, client_balance):
+    def get_client_services(self, client_balance):
         """Return the dictionary services of client"""
-        id_client, _ = client_balance
-        data = {'client_id': id_client}
-        url = urljoin(url, 'client/services')
+        client_id, _ = client_balance
+        data = {'client_id': client_id}
+        url = self.url_join('client/services')
         response = requests.post(url, headers=ClientLibrary._HEADERS, json=data)
         assert response.status_code == 200
         client_services_ = response.json()
         return client_services_
 
-    def get_services(self, url):
+    def get_services(self):
         """Return the dictionary of available services"""
-        url_services = urljoin(url, 'services')
-        response = requests.get(url_services, headers=ClientLibrary._HEADERS)
+        url = self.url_join('services')
+        response = requests.get(url, headers=ClientLibrary._HEADERS)
         services_ = response.json()
         assert response.status_code == 200
         return services_
@@ -79,24 +88,25 @@ class ClientLibrary(DataBaseLibrary):
             assert unused_service
             return unused_service
 
-    def set_client_service(self, url, client_balance, unused_service):
+    def set_client_service(self, client_balance, unused_service):
         """Set a service for client"""
         id_client, _ = client_balance
         id_service = unused_service['id']
         if id_service:
-            url = urljoin(url, 'client/add_service')
+            url = self.url_join('client/add_service')
             data = {'client_id': id_client, 'service_id': id_service}
-            response = requests.post(url, headers=ClientLibrary._HEADERS, json=data)
+            response = requests.post(url, headers=ClientLibrary._HEADERS,
+                                     json=data)
             assert response.status_code == 202
             return response.status_code
 
-    def wait_new_service(self, url, client_balance, unused_service, wait_time):
+    def wait_new_service(self, client_balance, unused_service, wait_time):
         """Waiting for a new service to appear in the client list"""
         id_client, _ = client_balance
         id_service = unused_service['id']
         start_time = datetime.now()
         while True:
-            client_services_ = self.get_client_services(url, client_balance)
+            client_services_ = self.get_client_services(client_balance)
             id_services_lst = [item['id'] for item in client_services_['items']]
             if id_service in id_services_lst:
                 return client_services_
