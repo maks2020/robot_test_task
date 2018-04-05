@@ -79,26 +79,27 @@ class ClientLibrary(DataBaseLibrary):
         assert response.status_code == 200
         return services_
 
-    def get_unused_services(self, client_services, services):
-        """Return a random unused service"""
+    def get_unused_service(self, client_services, services):
+        """Return a unused service"""
         if client_services['count'] != services['count']:
-            diff_services = [item for item in services['items']
-                             if item not in client_services['items']]
-            unused_service = random.choice(diff_services)
+            unused_services = [item for item in services['items']
+                               if item not in client_services['items']]
+
+            unused_service = random.choice(unused_services)
             assert unused_service
             return unused_service
 
     def set_client_service(self, client_balance, unused_service):
         """Set a service for client"""
-        id_client, _ = client_balance
-        id_service = unused_service['id']
-        if id_service:
-            url = self.url_join('client/add_service')
-            data = {'client_id': id_client, 'service_id': id_service}
-            response = requests.post(url, headers=ClientLibrary._HEADERS,
-                                     json=data)
-            assert response.status_code == 202
-            return response.status_code
+        client_id, _ = client_balance
+        service_id = unused_service['id']
+        assert service_id
+        url = self.url_join('client/add_service')
+        data = {'client_id': client_id, 'service_id': service_id}
+        response = requests.post(url, headers=ClientLibrary._HEADERS,
+                                 json=data)
+        assert response.status_code == 202
+        return response.status_code
 
     def wait_new_service(self, client_balance, unused_service, wait_time):
         """Waiting for a new service to appear in the client list"""
