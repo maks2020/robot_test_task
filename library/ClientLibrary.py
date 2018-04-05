@@ -128,7 +128,7 @@ class ClientLibrary(DataBaseLibrary):
         query_balance = self.cursor.execute('SELECT BALANCE FROM BALANCES '
                                             'WHERE CLIENTS_CLIENT_ID=?',
                                             (id_client,))
-        current_balance, = query_balance.fetchone()
-        assert current_balance
-        return current_balance
+        balance, = query_balance.fetchone()
+        assert balance
+        return balance
 
