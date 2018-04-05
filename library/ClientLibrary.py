@@ -7,6 +7,7 @@ import sqlite3
 import requests
 
 _TIME_SLEEP = 5
+_HEADERS = {'Content-Type': 'application/json'}
 
 
 class DataBaseLibrary:
@@ -29,7 +30,6 @@ class DataBaseLibrary:
 
 class ClientLibrary(DataBaseLibrary):
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
-    _HEADERS = {'Content-Type': 'application/json'}
 
     def __init__(self, host, port):
         super(ClientLibrary, self).__init__()
