@@ -10,7 +10,7 @@ Test case
     ${client_balance}       Take add client with positive balance    ${BALANCE_FOR_NEW_CLIENT}
     ${client_services}      Get client services                      ${client_balance}
     ${services}             Get services
-    ${unused_service}       Get unused services                      ${client_services}  ${services}
+    ${unused_service}       Get unused service                      ${client_services}  ${services}
                             Set client service                       ${client_balance}  ${unused_service}
                             Wait new service                         ${client_balance}  ${unused_service}  ${WAIT_TIME}
     @{balanses}             Get client balances                      ${client_balance}  ${unused_service}
