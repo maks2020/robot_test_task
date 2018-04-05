@@ -35,7 +35,7 @@ class ClientLibrary(DataBaseLibrary):
         """Return id and balance of client with positive balance or
         create new client if not exist"""
         client_balance_query = self.cursor.execute('SELECT * FROM BALANCES'
-                                                   ' WHERE BALANCE > 4 LIMIT 1')
+                                                   ' WHERE BALANCE > 0 LIMIT 1')
         client_with_balance = client_balance_query.fetchone()
         if not client_with_balance:
             client_with_balance = self.add_client(balance_for_new_client)
