@@ -122,15 +122,13 @@ class ClientLibrary(DataBaseLibrary):
             raise TimeoutError('Exceeded waiting time request... {message}'
                                .format(message=message))
 
-    def get_client_balances(self, client_balance, unused_service):
-        """Return current and estimated balances of client"""
+    def get_client_balance(self, client_balance):
+        """Return current balance of client"""
         id_client, start_balance = client_balance
-        cost_service = unused_service['cost']
         query_balance = self.cursor.execute('SELECT BALANCE FROM BALANCES '
                                             'WHERE CLIENTS_CLIENT_ID=?',
                                             (id_client,))
         current_balance, = query_balance.fetchone()
         assert current_balance
-        end_balance = start_balance - cost_service
-        return current_balance, end_balance
+        return current_balance
 
