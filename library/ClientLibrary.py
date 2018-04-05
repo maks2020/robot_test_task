@@ -81,13 +81,11 @@ class ClientLibrary(DataBaseLibrary):
 
     def get_unused_service(self, client_services, services):
         """Return a unused service"""
-        if client_services['count'] != services['count']:
-            unused_services = [item for item in services['items']
-                               if item not in client_services['items']]
-
-            unused_service = random.choice(unused_services)
-            assert unused_service
-            return unused_service
+        assert services['items']
+        unused_service = ''
+        for item in services['items']:
+            if item not in client_services['items']:
+                return unused_service
 
     def set_client_service(self, client_balance, unused_service):
         """Set a service for client"""
