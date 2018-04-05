@@ -34,7 +34,7 @@ docker-контейнера с тестируемым приложением:
 
 Запустите команду:
 
-    robot -d report tests
+    robot -d report --variablefile config/variables.py tests
 
 ### Описание
 
