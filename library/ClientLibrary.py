@@ -9,7 +9,8 @@ import requests
 _TIME_SLEEP = 5
 
 
-class DataBase:
+class DataBaseLibrary:
+    """The library provides work with the database"""
     def __init__(self):
         self.connect = None
         self.cursor = None
@@ -22,9 +23,11 @@ class DataBase:
     def close_db(self):
         """Close connection with database"""
         self.connect.close()
+        self.cursor = None
+        self.connect = None
 
 
-class ClientLibrary(DataBase):
+class ClientLibrary(DataBaseLibrary):
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
     _HEADERS = {'Content-Type': 'application/json'}
 
