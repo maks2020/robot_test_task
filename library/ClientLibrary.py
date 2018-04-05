@@ -1,7 +1,7 @@
 import random
 import time
 from urllib.parse import urljoin
-from datetime import datetime
+import datetime as dt
 import sqlite3
 
 import requests
@@ -82,10 +82,9 @@ class ClientLibrary(DataBaseLibrary):
     def get_unused_service(self, client_services, services):
         """Return a unused service"""
         assert services['items']
-        unused_service = ''
         for item in services['items']:
             if item not in client_services['items']:
-                return unused_service
+                return item
 
     def set_client_service(self, client_balance, unused_service):
         """Set a service for client"""
@@ -103,23 +102,25 @@ class ClientLibrary(DataBaseLibrary):
         """Waiting for a new service to appear in the client list"""
         id_client, _ = client_balance
         id_service = unused_service['id']
-        start_time = datetime.now()
-        while True:
+        end_time = dt.datetime.now() + dt.timedelta(seconds=wait_time)
+        client_services_ = {}
+        while dt.datetime.now() <= end_time:
             client_services_ = self.get_client_services(client_balance)
             id_services_lst = [item['id'] for item in client_services_['items']]
-            if id_service in id_services_lst:
+            try:
+                assert id_service in id_services_lst
                 return client_services_
-            delta_time = datetime.now() - start_time
-            if delta_time.seconds >= wait_time:
-                if client_services_['count'] == 0:
-                    message = ('The client id {} does not have services. '
-                               'The client possible does not exist in database'
-                               .format(id_client))
-                else:
-                    message = 'Something went wrong'
-                raise TimeoutError('Exceeded waiting time request... {message}'
-                                   .format(message=message))
-            time.sleep(_TIME_SLEEP)
+            except AssertionError:
+                time.sleep(_TIME_SLEEP)
+        else:
+            if client_services_['count'] == 0:
+                message = ('The client id {} does not have services. '
+                           'The client possible does not exist in database'
+                           .format(id_client))
+            else:
+                message = 'Something went wrong'
+            raise TimeoutError('Exceeded waiting time request... {message}'
+                               .format(message=message))
 
     def get_client_balances(self, client_balance, unused_service):
         """Return current and estimated balances of client"""
