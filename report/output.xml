@@ -1,48 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 3.0.2 (Python 3.5.3 on linux)" generated="20180405 15:57:23.664">
-<suite source="/home/mark/PycharmProjects/ps_test_task/tests" id="s1" name="Tests">
-<suite source="/home/mark/PycharmProjects/ps_test_task/tests/test_client.robot" id="s1-s1" name="Test Client">
-<test id="s1-s1-t1" name="Test case">
-<kw type="setup" library="ClientLibrary" name="Connect To Db">
+<robot generated="20180405 19:03:27.622" generator="Robot 3.0.2 (Python 3.5.3 on linux)">
+<suite name="Tests" id="s1" source="/home/mark/PycharmProjects/ps_test_task/tests">
+<suite name="Test Client" id="s1-s1" source="/home/mark/PycharmProjects/ps_test_task/tests/test_client.robot">
+<test name="Test case" id="s1-s1-t1">
+<kw library="ClientLibrary" name="Connect To Db" type="setup">
 <doc>Connect to database</doc>
 <arguments>
 <arg>${DATABASE_PATH}</arg>
 </arguments>
-<status status="PASS" endtime="20180405 15:57:23.979" starttime="20180405 15:57:23.978"></status>
+<status starttime="20180405 19:03:28.134" endtime="20180405 19:03:28.147" status="PASS"></status>
 </kw>
-<kw library="ClientLibrary" name="Get Client With Positive Balance">
-<doc>Return id and balance of client with positive balance</doc>
+<kw library="ClientLibrary" name="Take Add Client With Positive Balance">
+<doc>Return id and balance of client with positive balance or</doc>
 <arguments>
 <arg>${BALANCE_FOR_NEW_CLIENT}</arg>
 </arguments>
 <assign>
 <var>${client_balance}</var>
 </assign>
-<msg level="INFO" timestamp="20180405 15:57:24.026">${client_balance} = (4, 5.0)</msg>
-<status status="PASS" endtime="20180405 15:57:24.026" starttime="20180405 15:57:23.979"></status>
+<msg timestamp="20180405 19:03:28.148" level="INFO">${client_balance} = (3, 3.5)</msg>
+<status starttime="20180405 19:03:28.147" endtime="20180405 19:03:28.148" status="PASS"></status>
 </kw>
 <kw library="ClientLibrary" name="Get Client Services">
 <doc>Return the dictionary services of client</doc>
 <arguments>
-<arg>${URL}</arg>
 <arg>${client_balance}</arg>
 </arguments>
 <assign>
 <var>${client_services}</var>
 </assign>
-<msg level="INFO" timestamp="20180405 15:57:24.058">${client_services} = {'items': [], 'count': 0}</msg>
-<status status="PASS" endtime="20180405 15:57:24.058" starttime="20180405 15:57:24.026"></status>
+<msg timestamp="20180405 19:03:28.298" level="INFO">${client_services} = {'count': 1, 'items': [{'cost': 1.2, 'name': 'Service #1', 'id': 1}]}</msg>
+<status starttime="20180405 19:03:28.149" endtime="20180405 19:03:28.298" status="PASS"></status>
 </kw>
 <kw library="ClientLibrary" name="Get Services">
 <doc>Return the dictionary of available services</doc>
-<arguments>
-<arg>${URL}</arg>
-</arguments>
 <assign>
 <var>${services}</var>
 </assign>
-<msg level="INFO" timestamp="20180405 15:57:24.064">${services} = {'items': [{'id': 1, 'name': 'Service #1', 'cost': 1.2}, {'id': 2, 'name': 'Service #2', 'cost': 0.35}, {'id': 3, 'name': 'Service #3', 'cost': 0.15}, {'id': 4, 'name': 'Service #4', 'cost': 0.15}, {'...</msg>
-<status status="PASS" endtime="20180405 15:57:24.064" starttime="20180405 15:57:24.058"></status>
+<msg timestamp="20180405 19:03:28.307" level="INFO">${services} = {'count': 5, 'items': [{'cost': 1.2, 'name': 'Service #1', 'id': 1}, {'cost': 0.35, 'name': 'Service #2', 'id': 2}, {'cost': 0.15, 'name': 'Service #3', 'id': 3}, {'cost': 0.15, 'name': 'Service #4', ...</msg>
+<status starttime="20180405 19:03:28.299" endtime="20180405 19:03:28.307" status="PASS"></status>
 </kw>
 <kw library="ClientLibrary" name="Get Unused Services">
 <doc>Return a random unused service</doc>
@@ -53,49 +49,69 @@
 <assign>
 <var>${unused_service}</var>
 </assign>
-<msg level="INFO" timestamp="20180405 15:57:24.065">${unused_service} = {'id': 4, 'name': 'Service #4', 'cost': 0.15}</msg>
-<status status="PASS" endtime="20180405 15:57:24.065" starttime="20180405 15:57:24.065"></status>
+<msg timestamp="20180405 19:03:28.308" level="INFO">${unused_service} = {'cost': 0.05, 'name': 'Service #5', 'id': 5}</msg>
+<status starttime="20180405 19:03:28.308" endtime="20180405 19:03:28.308" status="PASS"></status>
 </kw>
 <kw library="ClientLibrary" name="Set Client Service">
 <doc>Set a service for client</doc>
 <arguments>
-<arg>${URL}</arg>
 <arg>${client_balance}</arg>
 <arg>${unused_service}</arg>
 </arguments>
-<status status="PASS" endtime="20180405 15:57:24.074" starttime="20180405 15:57:24.066"></status>
+<status starttime="20180405 19:03:28.309" endtime="20180405 19:03:28.356" status="PASS"></status>
 </kw>
 <kw library="ClientLibrary" name="Wait New Service">
 <doc>Waiting for a new service to appear in the client list</doc>
 <arguments>
-<arg>${URL}</arg>
 <arg>${client_balance}</arg>
 <arg>${unused_service}</arg>
 <arg>${WAIT_TIME}</arg>
 </arguments>
-<msg level="FAIL" timestamp="20180405 15:58:24.222">TimeoutError: Exceeded waiting time request... The client id 4 does not have services. The client possible does not exist in database</msg>
-<status status="FAIL" endtime="20180405 15:58:24.222" starttime="20180405 15:57:24.075"></status>
+<status starttime="20180405 19:03:28.357" endtime="20180405 19:03:33.375" status="PASS"></status>
 </kw>
-<kw type="teardown" library="ClientLibrary" name="Close Db">
+<kw library="ClientLibrary" name="Get Client Balances">
+<doc>Return current and estimated balances of client</doc>
+<arguments>
+<arg>${client_balance}</arg>
+<arg>${unused_service}</arg>
+</arguments>
+<assign>
+<var>@{balanses}</var>
+</assign>
+<msg timestamp="20180405 19:03:33.376" level="INFO">@{balanses} = [ 3.5 | 3.45 ]</msg>
+<status starttime="20180405 19:03:33.375" endtime="20180405 19:03:33.376" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Should Be Equal">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>@{balanses}[0]</arg>
+<arg>@{balanses}[1]</arg>
+<arg>Expected balance of client to be @{balanses}[0] but was @{balanses}[1]</arg>
+<arg>values=False</arg>
+</arguments>
+<msg timestamp="20180405 19:03:33.377" level="FAIL">Expected balance of client to be 3.5 but was 3.45</msg>
+<status starttime="20180405 19:03:33.376" endtime="20180405 19:03:33.377" status="FAIL"></status>
+</kw>
+<kw library="ClientLibrary" name="Close Db" type="teardown">
 <doc>Close connection with database</doc>
-<status status="PASS" endtime="20180405 15:58:24.224" starttime="20180405 15:58:24.223"></status>
+<status starttime="20180405 19:03:33.378" endtime="20180405 19:03:33.378" status="PASS"></status>
 </kw>
-<status status="FAIL" endtime="20180405 15:58:24.224" starttime="20180405 15:57:23.977" critical="yes">TimeoutError: Exceeded waiting time request... The client id 4 does not have services. The client possible does not exist in database</status>
+<status starttime="20180405 19:03:28.133" endtime="20180405 19:03:33.378" status="FAIL" critical="yes">Expected balance of client to be 3.5 but was 3.45</status>
 </test>
-<status status="FAIL" endtime="20180405 15:58:24.225" starttime="20180405 15:57:23.720"></status>
+<status starttime="20180405 19:03:27.691" endtime="20180405 19:03:33.379" status="FAIL"></status>
 </suite>
-<status status="FAIL" endtime="20180405 15:58:24.227" starttime="20180405 15:57:23.665"></status>
+<status starttime="20180405 19:03:27.623" endtime="20180405 19:03:33.389" status="FAIL"></status>
 </suite>
 <statistics>
 <total>
-<stat fail="1" pass="0">Critical Tests</stat>
-<stat fail="1" pass="0">All Tests</stat>
+<stat pass="0" fail="1">Critical Tests</stat>
+<stat pass="0" fail="1">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat id="s1" fail="1" name="Tests" pass="0">Tests</stat>
-<stat id="s1-s1" fail="1" name="Test Client" pass="0">Tests.Test Client</stat>
+<stat pass="0" name="Tests" fail="1" id="s1">Tests</stat>
+<stat pass="0" name="Test Client" fail="1" id="s1-s1">Tests.Test Client</stat>
 </suite>
 </statistics>
 <errors>
