@@ -6,7 +6,7 @@ Test Teardown  Close db
 
 *** Test Cases ***
 Test case
-    ${client_id}  ${start_balance}  Take add client with positive balance  ${BALANCE_FOR_NEW_CLIENT}
+    ${client_id}  ${start_balance}  Create or get existing client with positive balance  ${BALANCE_FOR_NEW_CLIENT}
     ${client_services}              Get client services                    ${client_id}
     ${services}                     Get services
     ${service_id}  ${service_cost}  Get unused service                     ${client_services}  ${services}

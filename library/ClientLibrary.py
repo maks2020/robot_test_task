@@ -24,11 +24,12 @@ class ClientLibrary(DataBaseLibrary):
         return urljoin('{host}:{port}'
                        .format(host=self.host, port=self.port), path)
 
-    def take_add_client_with_positive_balance(self, balance_for_new_client):
+    def create_or_get_existing_client_with_positive_balance(
+            self, balance_for_new_client):
         """Return id and balance of client with positive balance or
         create new client if not exist"""
-        client_balance_query = self._cursor.execute('SELECT * FROM BALANCES'
-                                                   ' WHERE BALANCE > 0 LIMIT 1')
+        client_balance_query = self._cursor.execute('SELECT * FROM BALANCES '
+                                                    'WHERE BALANCE > 0 LIMIT 1')
         client_with_balance = client_balance_query.fetchone()
         if not client_with_balance:
             client_with_balance = self.add_client(balance_for_new_client)
