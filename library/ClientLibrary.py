@@ -89,7 +89,7 @@ class ClientLibrary(DataBaseLibrary):
             service_ids = [item['id'] for item in client_services['items']]
             try:
                 assert service_id in service_ids
-                return client_services
+                return
             except AssertionError:
                 time.sleep(_TIME_SLEEP)
         else:
