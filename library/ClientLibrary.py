@@ -78,7 +78,6 @@ class ClientLibrary(DataBaseLibrary):
         response = requests.post(url, headers=_HEADERS,
                                  json=data)
         assert response.status_code == 202
-        return response.status_code
 
     def wait_appear_new_service_for_client(self, client_id, service_id,
                                            wait_time):
