@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import time
 from urllib.parse import urljoin
 import datetime as dt
