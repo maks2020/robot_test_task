@@ -42,7 +42,7 @@ class ClientLibrary(DataBaseLibrary):
         return client_with_balance
 
     def get_client_services(self, client_id):
-        """Return the dictionary services of client"""
+        """Returns a dictionary with services of client"""
         data = {'client_id': client_id}
         url = urljoin(self._host, 'client/services')
         response = requests.post(url, headers=_HEADERS, json=data)
