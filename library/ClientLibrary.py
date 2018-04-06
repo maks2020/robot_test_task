@@ -11,6 +11,7 @@ _HEADERS = {'Content-Type': 'application/json'}
 
 
 class ClientLibrary(DataBaseLibrary):
+    """Defines methods for testing API Clients"""
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
 
     def __init__(self, host, port):
