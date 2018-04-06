@@ -2,7 +2,7 @@
 
 import time
 from urllib.parse import urljoin
-import datetime as dt
+import datetime
 import random
 
 import requests
@@ -35,7 +35,7 @@ class ClientLibrary(DataBaseLibrary):
     def add_client(self, balance_for_new_client):
         """Add client into database and return client_id, balance"""
         self._cursor.execute('INSERT INTO CLIENTS (CLIENT_NAME) VALUES(?)',
-                            ('Ringo',))
+                             ('Ringo',))
         id_client = self._cursor.lastrowid
         client_with_balance = (id_client, balance_for_new_client)
         self._cursor.execute('INSERT INTO BALANCES VALUES(?,?)',
@@ -63,12 +63,12 @@ class ClientLibrary(DataBaseLibrary):
     def get_unused_service(self, client_services, services):
         """Return a unused service"""
         client_services_set = {(item['id'], item['cost'])
-                            for item in client_services['items']}
+                               for item in client_services['items']}
         services_set = {(item['id'], item['cost'])
                         for item in services['items']}
         unused_service_set = {item for item in services_set
-                           if item not in client_services_set}
-        assert unused_service_set
+                              if item not in client_services_set}
+        assert unused_service_set, 'No unused services available'
         return random.choice(list(unused_service_set))
 
     def add_new_service_to_client(self, client_id, service_id):
@@ -82,24 +82,22 @@ class ClientLibrary(DataBaseLibrary):
     def wait_appear_new_service_for_client(self, client_id, service_id,
                                            wait_time):
         """Waiting for a new service to appear in the client list"""
-        end_time = dt.datetime.now() + dt.timedelta(seconds=wait_time)
+        end_time = (datetime.datetime.now() +
+                    datetime.timedelta(seconds=wait_time))
         client_services = {}
-        while dt.datetime.now() <= end_time:
+        while datetime.datetime.now() <= end_time:
             client_services = self.get_client_services(client_id)
-            service_ids = [item['id'] for item in client_services['items']]
-            try:
-                assert service_id in service_ids
-                return
-            except AssertionError:
-                time.sleep(_TIME_SLEEP)
+            for item in client_services['items']:
+                if service_id == item['id']:
+                    return
+            time.sleep(_TIME_SLEEP)
         else:
             if client_services['count'] == 0:
                 message = ('The client id {} does not have services. '
-                           'The client possible does not exist in database'
                            .format(client_id))
             else:
-                message = 'Something went wrong'
-            raise TimeoutError('Exceeded waiting time request... {message}'
+                message = ''
+            raise TimeoutError('Exceeded waiting time... {message}'
                                .format(message=message))
 
     def get_client_balance(self, client_id):
