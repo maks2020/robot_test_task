@@ -1,6 +1,7 @@
 import time
 from urllib.parse import urljoin
 import datetime as dt
+import random
 
 import requests
 
@@ -63,10 +64,13 @@ class ClientLibrary(DataBaseLibrary):
 
     def get_unused_service(self, client_services, services):
         """Return a unused service"""
-        assert services['items']
-        for item in services['items']:
-            if item not in client_services['items']:
-                return item['id'], item['cost']
+        client_services_ = {(item['id'], item['cost'])
+                            for item in client_services['items']}
+        services_ = {(item['id'], item['cost']) for item in services['items']}
+        unused_service_ = {item for item in services_
+                           if item not in client_services_}
+        assert unused_service_
+        return random.choice(list(unused_service_))
 
     def add_new_service_to_client(self, client_id, service_id):
         """Adds a new service to the client"""
