@@ -27,7 +27,7 @@ class ClientLibrary(DataBaseLibrary):
     def take_add_client_with_positive_balance(self, balance_for_new_client):
         """Return id and balance of client with positive balance or
         create new client if not exist"""
-        client_balance_query = self.cursor.execute('SELECT * FROM BALANCES'
+        client_balance_query = self._cursor.execute('SELECT * FROM BALANCES'
                                                    ' WHERE BALANCE > 0 LIMIT 1')
         client_with_balance = client_balance_query.fetchone()
         if not client_with_balance:
@@ -36,12 +36,12 @@ class ClientLibrary(DataBaseLibrary):
 
     def add_client(self, balance_for_new_client):
         """Add client into database and return client_id, balance"""
-        self.cursor.execute('INSERT INTO CLIENTS (CLIENT_NAME) VALUES(?)',
+        self._cursor.execute('INSERT INTO CLIENTS (CLIENT_NAME) VALUES(?)',
                             ('Ringo',))
-        id_client = self.cursor.lastrowid
+        id_client = self._cursor.lastrowid
         client_with_balance = (id_client, balance_for_new_client)
-        self.cursor.execute('INSERT INTO BALANCES VALUES(?,?)',
-                            client_with_balance)
+        self._cursor.execute('INSERT INTO BALANCES VALUES(?,?)',
+                             client_with_balance)
         self._connect.commit()
         return client_with_balance
 
@@ -107,8 +107,8 @@ class ClientLibrary(DataBaseLibrary):
 
     def get_client_balance(self, client_id):
         """Return current balance of client"""
-        query_balance = self.cursor.execute('SELECT BALANCE FROM BALANCES '
-                                            'WHERE CLIENTS_CLIENT_ID=?',
+        query_balance = self._cursor.execute('SELECT BALANCE FROM BALANCES '
+                                             'WHERE CLIENTS_CLIENT_ID=?',
                                             (client_id,))
         balance, = query_balance.fetchone()
         assert balance
