@@ -24,7 +24,7 @@ class ClientLibrary(DataBaseLibrary):
         """Return id and balance of client with positive balance or
         create new client if not exist"""
         client_balance_query = self._cursor.execute('SELECT * FROM BALANCES '
-                                                    'WHERE BALANCE > 0 LIMIT 1')
+                                                    'WHERE BALANCE > 4 LIMIT 1')
         client_with_balance = client_balance_query.fetchone()
         if not client_with_balance:
             client_with_balance = self.add_client(balance_for_new_client)
@@ -47,30 +47,30 @@ class ClientLibrary(DataBaseLibrary):
         url = urljoin(self._host, 'client/services')
         response = requests.post(url, headers=_HEADERS, json=data)
         assert response.status_code == 200
-        client_services_ = response.json()
-        return client_services_
+        client_services = response.json()
+        return client_services
 
     def get_services(self):
         """Return the dictionary of available services"""
         url = urljoin(self._host, 'services')
         response = requests.get(url, headers=_HEADERS)
-        services_ = response.json()
+        services = response.json()
         assert response.status_code == 200
-        return services_
+        return services
 
     def get_unused_service(self, client_services, services):
         """Return a unused service"""
-        client_services_ = {(item['id'], item['cost'])
+        client_services_set = {(item['id'], item['cost'])
                             for item in client_services['items']}
-        services_ = {(item['id'], item['cost']) for item in services['items']}
-        unused_service_ = {item for item in services_
-                           if item not in client_services_}
-        assert unused_service_
-        return random.choice(list(unused_service_))
+        services_set = {(item['id'], item['cost'])
+                        for item in services['items']}
+        unused_service_set = {item for item in services_set
+                           if item not in client_services_set}
+        assert unused_service_set
+        return random.choice(list(unused_service_set))
 
     def add_new_service_to_client(self, client_id, service_id):
         """Adds a new service to the client"""
-        assert service_id
         url = urljoin(self._host, 'client/add_service')
         data = {'client_id': client_id, 'service_id': service_id}
         response = requests.post(url, headers=_HEADERS,
@@ -82,17 +82,17 @@ class ClientLibrary(DataBaseLibrary):
                                            wait_time):
         """Waiting for a new service to appear in the client list"""
         end_time = dt.datetime.now() + dt.timedelta(seconds=wait_time)
-        client_services_ = {}
+        client_services = {}
         while dt.datetime.now() <= end_time:
-            client_services_ = self.get_client_services(client_id)
-            service_ids = [item['id'] for item in client_services_['items']]
+            client_services = self.get_client_services(client_id)
+            service_ids = [item['id'] for item in client_services['items']]
             try:
                 assert service_id in service_ids
-                return client_services_
+                return client_services
             except AssertionError:
                 time.sleep(_TIME_SLEEP)
         else:
-            if client_services_['count'] == 0:
+            if client_services['count'] == 0:
                 message = ('The client id {} does not have services. '
                            'The client possible does not exist in database'
                            .format(client_id))
