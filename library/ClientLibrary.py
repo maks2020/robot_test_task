@@ -24,7 +24,7 @@ class ClientLibrary(DataBaseLibrary):
         """Return id and balance of client with positive balance or
         create new client if not exist"""
         client_balance_query = self._cursor.execute('SELECT * FROM BALANCES '
-                                                    'WHERE BALANCE > 4 LIMIT 1')
+                                                    'WHERE BALANCE > 0 LIMIT 1')
         client_with_balance = client_balance_query.fetchone()
         if not client_with_balance:
             client_with_balance = self.add_client(balance_for_new_client)
@@ -105,7 +105,7 @@ class ClientLibrary(DataBaseLibrary):
         """Return current balance of client"""
         query_balance = self._cursor.execute('SELECT BALANCE FROM BALANCES '
                                              'WHERE CLIENTS_CLIENT_ID=?',
-                                            (client_id,))
+                                             (client_id,))
         balance, = query_balance.fetchone()
         assert balance
         return balance
@@ -115,10 +115,8 @@ class ClientLibrary(DataBaseLibrary):
                                               current_balance, service_cost):
         """Check current balance of client and calculated balance"""
         expected_balance = start_balance - service_cost
-        try:
-            assert current_balance == expected_balance
-        except AssertionError:
-            raise AssertionError('Expected balance of client to be {expected}'
-                                 ' but was {current}'
-                                 .format(expected=expected_balance,
-                                         current=current_balance))
+        message = ('Expected balance of client to be {expected} '
+                   'but was {current}'
+                   .format(expected=expected_balance,
+                           current=current_balance))
+        assert current_balance == expected_balance, message
