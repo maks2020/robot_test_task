@@ -17,7 +17,7 @@ class ClientLibrary(DataBaseLibrary):
 
     def __init__(self, host):
         super().__init__()
-        self.host = host
+        self._host = host
 
     def create_or_get_existing_client_with_positive_balance(
             self, balance_for_new_client):
@@ -44,7 +44,7 @@ class ClientLibrary(DataBaseLibrary):
     def get_client_services(self, client_id):
         """Return the dictionary services of client"""
         data = {'client_id': client_id}
-        url = urljoin(self.host, 'client/services')
+        url = urljoin(self._host, 'client/services')
         response = requests.post(url, headers=_HEADERS, json=data)
         assert response.status_code == 200
         client_services_ = response.json()
@@ -52,7 +52,7 @@ class ClientLibrary(DataBaseLibrary):
 
     def get_services(self):
         """Return the dictionary of available services"""
-        url = urljoin(self.host, 'services')
+        url = urljoin(self._host, 'services')
         response = requests.get(url, headers=_HEADERS)
         services_ = response.json()
         assert response.status_code == 200
@@ -71,7 +71,7 @@ class ClientLibrary(DataBaseLibrary):
     def add_new_service_to_client(self, client_id, service_id):
         """Adds a new service to the client"""
         assert service_id
-        url = urljoin(self.host, 'client/add_service')
+        url = urljoin(self._host, 'client/add_service')
         data = {'client_id': client_id, 'service_id': service_id}
         response = requests.post(url, headers=_HEADERS,
                                  json=data)
