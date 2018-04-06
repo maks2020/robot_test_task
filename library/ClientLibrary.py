@@ -1,31 +1,13 @@
-import random
 import time
 from urllib.parse import urljoin
 import datetime as dt
-import sqlite3
 
 import requests
 
+from DataBaseLibrary import DataBaseLibrary
+
 _TIME_SLEEP = 5
 _HEADERS = {'Content-Type': 'application/json'}
-
-
-class DataBaseLibrary:
-    """The library provides work with the database"""
-    def __init__(self):
-        self._connect = None
-        self.cursor = None
-
-    def connect_to_db(self, db_path):
-        """Connect to database"""
-        self._connect = sqlite3.connect(db_path)
-        self.cursor = self._connect.cursor()
-
-    def close_db(self):
-        """Close connection with database"""
-        self._connect.close()
-        self.cursor = None
-        self._connect = None
 
 
 class ClientLibrary(DataBaseLibrary):
