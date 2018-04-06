@@ -15,22 +15,23 @@ report - папка с отчетами теста
 
 Для запуска тестового приложения требуется:
 
-Docker, Docker-compose
+    Docker, Docker-compose
+
+    В папке ./aut последовательно запустить команды для сборки
+    docker-контейнера с тестируемым приложением:
+
+        docker-compose build
+
+        docker-compose up
+
 
 Для запуска теста требуются:
 
-    Python 3.6
+        Python 3.6
 
-Установить зависимости при промощи команды:
+    Установить зависимости при промощи команды:
 
-    pip install -r requirements.txt
-
-В папке ./aut последовательно запустить команды для сборки
-docker-контейнера с тестируемым приложением:
-
-    docker-compose build
-
-    docker-compose up
+        pip install -r requirements.txt
 
 ### Запуск автотеста
 
