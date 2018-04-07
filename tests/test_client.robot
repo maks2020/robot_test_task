@@ -1,7 +1,5 @@
 *** Settings ***
 Library      ../library/ClientLibrary.py  ${HOST}
-Test Setup     Connect to db  ${DATABASE_PATH}
-Test Teardown  Close db
 
 
 *** Test Cases ***
