@@ -18,10 +18,10 @@ class ClientLibrary:
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
 
     def __init__(self, host, database_path):
-        self.database_path = database_path
-        self.db = DataBaseLibrary(self.database_path)
-        self._connect = self.db.connect
-        self._cursor = self.db.cursor
+        self._database_path = database_path
+        self._db = DataBaseLibrary(self._database_path)
+        self._connect = self._db.connect
+        self._cursor = self._db.cursor
         self._host = host
 
     def create_or_get_existing_client_with_positive_balance(
