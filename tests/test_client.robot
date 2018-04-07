@@ -1,5 +1,5 @@
 *** Settings ***
-Library      ../library/ClientLibrary.py  ${HOST}
+Library      ../library/ClientLibrary.py  ${HOST}  ${DATABASE_PATH}
 
 
 *** Test Cases ***

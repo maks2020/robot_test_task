@@ -2,14 +2,13 @@
 
 import sqlite3
 
-from variables import DATABASE_PATH
-
 
 class DataBaseLibrary:
     """The library provides work with the database"""
-    def __init__(self):
-        self._connect = sqlite3.connect(DATABASE_PATH)
-        self._cursor = self._connect.cursor()
+    def __init__(self, database_path):
+        self.database_path = database_path
+        self.connect = sqlite3.connect(self.database_path)
+        self.cursor = self.connect.cursor()
 
     def __del__(self):
-        self._connect.close()
+        self.connect.close()

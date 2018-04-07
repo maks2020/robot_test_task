@@ -13,12 +13,15 @@ _TIME_SLEEP = 5
 _HEADERS = {'Content-Type': 'application/json'}
 
 
-class ClientLibrary(DataBaseLibrary):
-    """Defines methods for testing API Clients"""
+class ClientLibrary:
+    """Defines methods for testing a test application"""
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
 
-    def __init__(self, host):
-        super().__init__()
+    def __init__(self, host, database_path):
+        self.database_path = database_path
+        self.db = DataBaseLibrary(self.database_path)
+        self._connect = self.db.connect
+        self._cursor = self.db.cursor
         self._host = host
 
     def create_or_get_existing_client_with_positive_balance(
