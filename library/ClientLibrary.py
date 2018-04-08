@@ -96,7 +96,7 @@ class ClientLibrary:
             time.sleep(_TIME_SLEEP)
         else:
             if client_services['count'] == 0:
-                message = ('The client id {} does not have services. '
+                message = ('The client id {} does not have services.'
                            .format(client_id))
             else:
                 message = ''
