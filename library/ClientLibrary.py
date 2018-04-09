@@ -14,7 +14,7 @@ _HEADERS = {'Content-Type': 'application/json'}
 
 
 class ClientLibrary:
-    """Defines methods for testing a test application"""
+    """Defines methods for testing an application under test"""
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
 
     def __init__(self, host, database_path):
@@ -64,15 +64,13 @@ class ClientLibrary:
         return services
 
     def get_unused_service(self, client_services, services):
-        """Return a unused service"""
-        client_services_set = {(item['id'], item['cost'])
+        """Return an unused service"""
+        client_services_set = {item['id']
                                for item in client_services['items']}
-        services_set = {(item['id'], item['cost'])
-                        for item in services['items']}
-        unused_service_set = {item for item in services_set
-                              if item not in client_services_set}
-        assert unused_service_set, 'No unused services available'
-        return random.choice(list(unused_service_set))
+        for item in services['items']:
+            if item['id'] not in client_services_set:
+                return item['id'], item['cost']
+        raise AssertionError('No unused services available')
 
     def add_new_service_to_client(self, client_id, service_id):
         """Adds a new service to the client"""
@@ -87,7 +85,6 @@ class ClientLibrary:
         """Waiting for a new service to appear in the client list"""
         end_time = (datetime.datetime.now() +
                     datetime.timedelta(seconds=wait_time))
-        client_services = {}
         while datetime.datetime.now() <= end_time:
             client_services = self.get_client_services(client_id)
             for item in client_services['items']:
@@ -95,13 +92,12 @@ class ClientLibrary:
                     return
             time.sleep(_TIME_SLEEP)
         else:
-            if client_services['count'] == 0:
-                message = ('The client id {} does not have services.'
-                           .format(client_id))
-            else:
-                message = ''
-            raise TimeoutError('Exceeded waiting time... {message}'
-                               .format(message=message))
+            raise TimeoutError(
+                'Exceeded waiting time... Waited {wait_time}, '
+                'but service {service_id} not connected to '
+                'client {client_id}'.format(wait_time=wait_time,
+                                            service_id=service_id,
+                                            client_id=client_id))
 
     def get_client_balance(self, client_id):
         """Return current balance of client"""
