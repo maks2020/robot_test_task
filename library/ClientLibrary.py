@@ -87,9 +87,10 @@ class ClientLibrary:
                     datetime.timedelta(seconds=wait_time))
         while datetime.datetime.now() <= end_time:
             client_services = self.get_client_services(client_id)
-            for item in client_services['items']:
-                if service_id == item['id']:
-                    return
+            client_services_id = {item['id']
+                                  for item in client_services['items']}
+            if service_id in client_services_id:
+                return
             time.sleep(_TIME_SLEEP)
         else:
             raise TimeoutError(
